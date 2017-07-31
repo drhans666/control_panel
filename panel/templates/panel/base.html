@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% load auth_extras %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>control panel</title>
+</head>
+<body>
+
+
+
+{% if user.is_authenticated %}
+  <a href="{% url 'panel:index' %}">home</a>
+  <a href="{% url 'panel:vacat_form' %}">Submit vacation</a>
+  <a href="{% url 'users:logout' %}">Log out</a>
+  {% if request.user|has_group:"hi_user" %}
+  Hi_user menu:
+    <a href="{% url 'users:register' %}">Add new user</a>
+    <a href="{% url 'panel:vac_query' %}">Accept Vacations</a>
+  {% endif %}
+Logged as {{ user.username }}.
+{% else %}
+  <a href="{% url 'panel:index' %}">home</a>
+  <a href="{% url 'users:login' %}">log in</a>
+{% endif %}
+
+{% block content %}{% endblock content %}
+</body>
+</html>

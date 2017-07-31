@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% extends "panel/base.html" %}
+{% block content %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h3>Select Filter</h3>
+<div>
+    <form action="/panel:vac_query/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{  form.as_p }}
+        <input type="submit" value="Search" style="color:black" />
+    </form>
+
+</div>
+<table>
+    <tr>
+        <th>id............ </th>
+        <th>user............ </th>
+        <th>nr of days............ </th>
+        <th>start date.......... </th>
+        <th>end date............ </th>
+        <th>request date.......................... </th>
+        <th>acceptation.......... </th>
+        <th>change.......... </th>
+    </tr>
+    {% for found in found_list %}
+    <tr>
+        <td>{{ found.id }}</td>
+        <td>{{ found.user }}</td>
+        <td>{{ found.vac_days }}</td>
+        <td>{{ found.start_date }}</td>
+        <td>{{ found.end_date }}</td>
+        <td>{{ found.add_date }}</td>
+        <td>{{ found.accepted }}</td>
+        <td><a href="{% url 'panel:vac_edit' found.id %}">edit</a></td>
+        {% empty %}
+        No search results.
+    </tr>
+
+    {% endfor %}
+
+
+</table>
+</body>
+{% endblock content %}
+</html>

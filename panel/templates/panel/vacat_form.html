@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% extends "panel/base.html" %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vacation</title>
+
+</head>
+<body>
+<p>select your urlop </p>
+
+<div>
+    <form action="/panel:vacat_form/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{  form.as_p }}
+        <input type="submit" value="Upload" style="color:black" />
+        {{ text }}
+    </form>
+</div>
+</body>
+{% endblock content %}
+</html>

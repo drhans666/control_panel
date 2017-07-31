@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% extends "panel/base.html" %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vac_edit</title>
+</head>
+<body>
+<h3>Vacation request</h3>
+<h4>Added: {{ vac_edit_obj.add_date }}</h4>
+<h4>User: {{ vac_edit_obj.user }}</h4>
+<h4>Vacation start: {{ vac_edit_obj.start_date }}</h4>
+<h4>Vacation end: {{ vac_edit_obj.end_date }}</h4>
+<h4>Number of days: {{ vac_edit_obj.vac_days }}</h4>
+<h4>Acceptation: {{ vac_edit_obj.accepted }}</h4>
+
+<form action="{% url 'panel:vac_edit' vac_edit_obj.id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{  form.as_p }}
+    <input type="submit" value="Submit" style="color:black" />
+</form>
+<h4> {{ text }} </h4>
+</body>
+{% endblock content %}
+</html>

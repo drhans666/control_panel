@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% extends "panel/base.html" %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" action="{% url 'users:register' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button name="submit">register</button>
+    <input type="hidden" name="next" value="{% url 'panel:index' %}" />
+</form>
+</body>
+{% endblock content %}
+</html>
