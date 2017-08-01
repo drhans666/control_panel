@@ -6,7 +6,6 @@ from django.contrib.admin.widgets import AdminDateWidget
 
 
 class VacationForm(ModelForm):
-
     class Meta:
         model = Vacation
         fields = '__all__'

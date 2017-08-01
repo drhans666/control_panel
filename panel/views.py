@@ -5,7 +5,6 @@ from .forms import VacationForm, VacQuery, VacVerify
 from .models import Vacation
 from .scripts import vac_search, apply_dec
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.exceptions import ObjectDoesNotExist
 
 
 

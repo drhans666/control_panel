@@ -4,19 +4,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>vacation</title>
-
+    <title>Edit Announcement</title>
 </head>
 <body>
-
-<h3>Select Your vacation options. </h3>
-<form action="/panel:vacat_form/" method="post" enctype="multipart/form-data">
+<h3>Edit announcement. </h3>
+<form action="{% url 'announcements:edit_anon' anon_edit_obj.id %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{  form.as_p }}
     <input type="submit" value="Submit" class="btn btn-default" />
-    {{ text }}
 </form>
-
 </body>
 {% endblock content %}
 </html>

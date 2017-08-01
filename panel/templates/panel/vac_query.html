@@ -9,26 +9,35 @@
 </head>
 <body>
 
-<h3>Select Filter</h3>
-<div>
-    <form action="/panel:vac_query/" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{  form.as_p }}
-        <input type="submit" value="Search" style="color:black" />
-    </form>
 
-</div>
-<table>
+
+<h3>Select Filter</h3>
+<form class="form-inline" action="/panel:vac_query/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+    {{  form.as_p }}
+    <input type="submit" value="Search" class="btn btn-default" />
+    </div>
+</form>
+
+
+
+
+<h2>Results:</h2>
+<table class="table table-striped">
+    <thead>
     <tr>
-        <th>id............ </th>
-        <th>user............ </th>
-        <th>nr of days............ </th>
-        <th>start date.......... </th>
-        <th>end date............ </th>
-        <th>request date.......................... </th>
-        <th>acceptation.......... </th>
-        <th>change.......... </th>
+        <th>id</th>
+        <th>user</th>
+        <th>nr of days</th>
+        <th>start date</th>
+        <th>end date</th>
+        <th>request date</th>
+        <th>acceptation</th>
+        <th>action</th>
     </tr>
+    </thead>
+    <tbody>
     {% for found in found_list %}
     <tr>
         <td>{{ found.id }}</td>
@@ -45,8 +54,8 @@
 
     {% endfor %}
 
-
 </table>
+
 </body>
 {% endblock content %}
 </html>

@@ -5,28 +5,54 @@
 {% load auth_extras %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>control panel</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <title>Control Panel</title>
 </head>
 <body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{% url 'panel:index' %}">Control Panel:</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="{% url 'panel:index' %}">home</a></li>
+      {% if user.is_authenticated %}
 
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Announcements
+          <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="{% url 'announcements:all_anon' %}">Read announcements</a></li>
+          {% if request.user|has_group:"hi_user" %}
+          <li><a href="{% url 'announcements:new_anon' %}">New announcement</a></li>
+          {% endif %}
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Vacations
+          <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="{% url 'panel:vacat_form' %}">Send Request</a></li>
+          {% if request.user|has_group:"hi_user" %}
+          <li><a href="{% url 'panel:vac_query' %}">Manage Requests</a></li>
+          {% endif %}
+        </ul>
+      </li>
+      <li><a href="{% url 'users:logout' %}">Log out</a></li>
+      {% else %}
+      <li><a href="{% url 'users:login' %}">Log in</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
 
-
-{% if user.is_authenticated %}
-  <a href="{% url 'panel:index' %}">home</a>
-  <a href="{% url 'panel:vacat_form' %}">Submit vacation</a>
-  <a href="{% url 'users:logout' %}">Log out</a>
-  {% if request.user|has_group:"hi_user" %}
-  Hi_user menu:
-    <a href="{% url 'users:register' %}">Add new user</a>
-    <a href="{% url 'panel:vac_query' %}">Accept Vacations</a>
-  {% endif %}
-Logged as {{ user.username }}.
-{% else %}
-  <a href="{% url 'panel:index' %}">home</a>
-  <a href="{% url 'users:login' %}">log in</a>
-{% endif %}
 
 {% block content %}{% endblock content %}
 </body>
 </html>
+
+
