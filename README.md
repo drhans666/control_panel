@@ -6,15 +6,17 @@ Features available FOR NOW: <br>
 lower group can:<br>
 -log in/logout from panel<br>
 -send vacation day request<br>
+-read announcements<br>
 
 higher group can:<br>
 -log in/logout from panel<br>
 -create new user (lower group only. higher group users can be created by admin)<br>
 -set vacation days<br>
 -query and accept/decline/delete vacation days requests<br>
+-read/write/edit announcements
 <br>
 TODO:<br>
 - stocktaking panel for both groups <br>
 - frontend + jscript<br>
-- google calendar support 
+- google calendar support ???
 
