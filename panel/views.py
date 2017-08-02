@@ -1,17 +1,18 @@
+from datetime import date
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import VacationForm, VacQuery, VacVerify
 from .models import Vacation
 from .scripts import vac_search, apply_dec
-from django.contrib.auth.decorators import login_required, user_passes_test
+
 
 
 
 
 def index(request):
     text = 'hello costam'
-
     return render(request, 'panel/index.html', {'text': text})
 
 
@@ -91,7 +92,14 @@ def vac_edit(request, vac_id):
 
         return HttpResponseRedirect(reverse('panel:vac_edit', args=[vac_id]))
 
+@login_required()
+def vac_now(request):
+    days_list = []
+    found = Vacation.objects.filter(accepted=True, end_date__gte=date.today() ).order_by('end_date')
+    for f in found:
+        days = f.end_date - date.today()
+        days_list.append(str(days)[:-9])
+    lists = zip(found, days_list)
 
-
-
-
+    context = {'lists':lists}
+    return render(request, 'panel/vac_now.html', context)

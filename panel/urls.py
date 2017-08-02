@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
 url(r'^vac_edit/(?P<vac_id>\d+)/$', views.vac_edit, name="vac_edit"),
+url(r'vac_now', views.vac_now, name='vac_now'),
 url(r'vac_query', views.vac_query, name='vac_query'),
 url(r'vacat_form', views.vacat_form, name='vacat_form'),
 url(r'', views.index, name='index'),

@@ -37,6 +37,7 @@
           <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="{% url 'panel:vacat_form' %}">Send Request</a></li>
+          <li><a href="{% url 'panel:vac_now' %}">Now on vacations</a></li>
           {% if request.user|has_group:"hi_user" %}
           <li><a href="{% url 'panel:vac_query' %}">Manage Requests</a></li>
           {% endif %}

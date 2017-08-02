@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% extends "panel/base.html" %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Now on vacation</title>
+</head>
+<body>
+<h2>Currently on vacations:</h2>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>user</th>
+        <th>return in</th>
+        <th>return date</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for query, days in lists %}
+    <tr>
+        <td>{{ query.user }}</td>
+        <td>{{ days }}</td>
+        <td>{{ query.end_date }}</td>
+
+        {% empty %}
+        Currently no one is on vacation.
+        {% endfor %}
+    </tr>
+
+
+</table>
+</body>
+{% endblock content %}
+</html>
