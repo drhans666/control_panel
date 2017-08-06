@@ -5,19 +5,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>vacation</title>
-
+    <title>Title</title>
 </head>
 <body>
-
 <div class="col-sm-3">
-<h3>Select Your vacation options. </h3>
-<form action="/panel:vacat_form/" method="post" enctype="multipart/form-data">
+<h3>Add new item</h3>
+<form action="{% url 'inventory:new_item' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {% bootstrap_form form %}
-
+    {% bootstrap_form form  %}
     {% buttons %}
-    <button name="submit" class="btn btn-primary">Submit</button>
+    <button name="submit" class="btn btn-primary">Add new item</button>
     {% endbuttons %}
     {{ text }}
 </form>

@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 {% extends "panel/base.html" %}
 {% block content %}
+{% load bootstrap3 %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Edit Announcement</title>
 </head>
 <body>
+
+<div class="col-sm-5">
 <h3>Edit announcement. </h3>
-<form action="{% url 'announcements:edit_anon' anon_edit_obj.id %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'announcements:edit_anon' anon_edit_obj.id %}"
+      method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{  form.as_p }}
-    <input type="submit" value="Submit" class="btn btn-default" />
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button name="submit" class="btn btn-primary">Submit</button>
+    {% endbuttons %}
 </form>
+</div>
 </body>
 {% endblock content %}
 </html>

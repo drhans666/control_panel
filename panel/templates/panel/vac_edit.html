@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 {% extends "panel/base.html" %}
 {% block content %}
+{% load bootstrap3 %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>vac_edit</title>
 </head>
 <body>
+<div class="col-sm-3">
 <h3>Vacation request</h3>
 <h4>Added: {{ vac_edit_obj.add_date }}</h4>
 <h4>User: {{ vac_edit_obj.user }}</h4>
@@ -17,10 +19,13 @@
 
 <form action="{% url 'panel:vac_edit' vac_edit_obj.id %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{  form.as_p }}
-    <input type="submit" value="Submit" class="btn btn-default" />
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button name="submit" class="btn btn-primary">Submit</button>
+    {% endbuttons %}
 </form>
 <h4> {{ text }} </h4>
+</div>
 </body>
 {% endblock content %}
 </html>

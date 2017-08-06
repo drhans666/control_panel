@@ -43,6 +43,16 @@
           {% endif %}
         </ul>
       </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Inventory
+          <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="{% url 'inventory:add_to_section' %}">Allocate to section</a></li>
+          {% if request.user|has_group:"hi_user" %}
+          <li><a href="{% url 'inventory:new_item' %}">Add new item</a></li>
+          {% endif %}
+        </ul>
+      </li>
       <li><a href="{% url 'users:logout' %}">Log out</a></li>
       {% else %}
       <li><a href="{% url 'users:login' %}">Log in</a></li>
