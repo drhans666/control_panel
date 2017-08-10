@@ -14,9 +14,10 @@ higher group can:<br>
 -set vacation days<br>
 -query and accept/decline/delete vacation days requests<br>
 -read/write/edit announcements
+-add new items and place them in sections
 <br>
 TODO:<br>
-- stocktaking panel for both groups <br>
+- Inventory section: items query view, stocktaking panel for lower group. <br>
 - frontend + jscript<br>
 - google calendar support ???
 
