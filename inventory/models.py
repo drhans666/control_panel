@@ -2,8 +2,23 @@ from django.db import models
 from django.core.validators import MinValueValidator
 
 
+class UpperCaseCharField(models.CharField):
+
+    def __init__(self, *args, **kwargs):
+        super(UpperCaseCharField, self).__init__(*args, **kwargs)
+
+    def pre_save(self, model_instance, add):
+        value = getattr(model_instance, self.attname, None)
+        if value:
+            value = value.upper()
+            setattr(model_instance, self.attname, value)
+            return value
+        else:
+            return super(UpperCaseCharField, self).pre_save(model_instance, add)
+
+
 class Category(models.Model):
-    name = models.CharField(default='', max_length=40)
+    name = UpperCaseCharField(default='', max_length=40, unique=True)
 
     def __str__(self):
         return self.name
@@ -14,7 +29,7 @@ class Category(models.Model):
 
 
 class Manufacturer(models.Model):
-    name = models.CharField(default='', max_length=40)
+    name = UpperCaseCharField(default='', max_length=40, unique=True)
 
     def __str__(self):
         return self.name
@@ -31,20 +46,17 @@ class ItemLocation(models.Model):
 
 
 class Section(models.Model):
-    name = models.CharField(default='', max_length=40)
-    have_item = models.ManyToManyField('Item', through=ItemLocation)
+    name = UpperCaseCharField(default='', max_length=40, unique=True)
 
     def __str__(self):
         return self.name
 
-    class Meta:
-        ordering = ('name',)
-
 
 class Item(models.Model):
-    name = models.CharField(default='', max_length=40)
-    category = models.ManyToManyField(Category)
+    name = UpperCaseCharField(default='', max_length=40)
+    category = models.ManyToManyField(Category, related_name="item_cat")
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
+    section = models.ManyToManyField(Section, through=ItemLocation)
 
     def __str__(self):
         return str(self.name) + ' ' + str(self.manufacturer)

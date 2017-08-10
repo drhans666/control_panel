@@ -47,10 +47,11 @@
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Inventory
           <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="{% url 'inventory:add_to_section' %}">Assign item to section</a></li>
           {% if request.user|has_group:"hi_user" %}
+          <li><a href="{% url 'inventory:show_items' %}">Show items</a></li>
           <li><a href="{% url 'inventory:new_item' %}">Add new item</a></li>
           {% endif %}
+          <li><a href="{% url 'inventory:add_to_section' %}">Assign item to section</a></li>
         </ul>
       </li>
       <li><a href="{% url 'users:logout' %}">Log out</a></li>

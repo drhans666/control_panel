@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% extends "panel/base.html" %}
+{% block content %}
+{% load bootstrap3 %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>show items</title>
+</head>
+<body>
+<div class="col-sm-4">
+<h3>Select Filter</h3>
+<form class="form-inline" action="{% url 'inventory:show_items' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button name="submit" class="btn btn-primary">Search</button>
+    {% endbuttons %}
+</form>
+    <div>
+        <h2>Results:</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>category</th>
+                <th>name</th>
+                <th>manufacturer</th>
+                <th>section</th>
+                <th>quantity</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item, category, section, quantity in found_list %}
+            <tr>
+                <td>{{ category }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.manufacturer }}</td>
+                <td>{{ section }}</td>
+                <td>{{ quantity }}</td>
+                {% empty %}
+                No search results.
+            </tr>
+
+            {% endfor %}
+
+        </table>
+    </div>
+</div>
+
+
+</body>
+{% endblock content %}
+</html>
