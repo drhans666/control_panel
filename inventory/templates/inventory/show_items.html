@@ -8,11 +8,12 @@
     <title>show items</title>
 </head>
 <body>
-<div class="col-sm-4">
+<div class="col-sm-8">
 <h3>Select Filter</h3>
 <form class="form-inline" action="{% url 'inventory:show_items' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form %}
+    <br>
     {% buttons %}
     <button name="submit" class="btn btn-primary">Search</button>
     {% endbuttons %}
@@ -22,21 +23,27 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>category</th>
+                <th>nr</th>
                 <th>name</th>
                 <th>manufacturer</th>
                 <th>section</th>
+                <th>category</th>
                 <th>quantity</th>
+                <th>added by</th>
+                <th>add date</th>
             </tr>
             </thead>
             <tbody>
-            {% for item, category, section, quantity in found_list %}
+            {% for found, category in found_list %}
             <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ found.item.name }}</td>
+                <td>{{ found.item.manufacturer }}</td>
+                <td>{{ found.section }}</td>
                 <td>{{ category }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.manufacturer }}</td>
-                <td>{{ section }}</td>
-                <td>{{ quantity }}</td>
+                <td>{{ found.quantity }}</td>
+                <td>{{ found.user }}</td>
+                <td>{{ found.date_added }}</td>
                 {% empty %}
                 No search results.
             </tr>

@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.contrib.auth.models import User
 
 
 class UpperCaseCharField(models.CharField):
@@ -43,6 +44,7 @@ class ItemLocation(models.Model):
     item = models.ForeignKey('item')
     quantity = models.IntegerField(default=1, validators=[MinValueValidator(1)])
     date_added = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, default=1)
 
 
 class Section(models.Model):
@@ -54,7 +56,7 @@ class Section(models.Model):
 
 class Item(models.Model):
     name = UpperCaseCharField(default='', max_length=40)
-    category = models.ManyToManyField(Category, related_name="item_cat")
+    category = models.ManyToManyField(Category)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
     section = models.ManyToManyField(Section, through=ItemLocation)
 

@@ -23,11 +23,20 @@ class CategoryForm(forms.ModelForm):
         model = Category
         fields = '__all__'
 
+
 class ManufacturerForm(forms.ModelForm):
 
     class Meta:
         model = Manufacturer
         fields = '__all__'
+
+
+class SectionForm(forms.ModelForm):
+
+    class Meta:
+        model = Section
+        fields = '__all__'
+
 
 class QueryForm(forms.Form):
 
@@ -41,3 +50,8 @@ class QueryForm(forms.Form):
                                              widget=forms.CheckboxSelectMultiple,
                                              label="section(optional)",
                                              required=False)
+
+
+class StocktakingForm(forms.Form):
+
+    counted = forms.IntegerField(min_value=0)
