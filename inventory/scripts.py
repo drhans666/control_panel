@@ -31,7 +31,7 @@ def search_items(item, manufacturer, cat, sect):
     if item == 'ALL' and manufacturer == 'ALL':
         matches = ItemLocation.objects.filter(section__in=sect,
                                       item__category__id__in=cat).order_by('section__name',
-                                                                           'item__name').annotate(Count('myfield'))
+                                                                           'item__name')
 
         found_list_appender(matches, found_items, found_category)
 
