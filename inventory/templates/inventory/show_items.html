@@ -40,7 +40,7 @@
                 <td>{{ found.item.name }}</td>
                 <td>{{ found.item.manufacturer }}</td>
                 <td>{{ found.section }}</td>
-                <td>{{ category }}</td>
+                <td>{% for cat in category %}{{ cat }}<br>{% endfor %}</td>
                 <td>{{ found.quantity }}</td>
                 <td>{{ found.user }}</td>
                 <td>{{ found.date_added }}</td>

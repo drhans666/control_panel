@@ -1,11 +1,14 @@
-from .models import Item, Category, Section, ItemLocation
-from django.db.models import Count
+from .models import Category, Section, ItemLocation
+
 
 
 def found_list_appender(matches, found_items, found_category):
     for match in matches:
         found_items.append(match)
-        found_category.append(match.item.category.all()[0])
+        found_category.append(match.item.category.all().values_list('name', flat=True))
+
+
+
 
 
 def check_category_section(category, section):
@@ -31,7 +34,7 @@ def search_items(item, manufacturer, cat, sect):
     if item == 'ALL' and manufacturer == 'ALL':
         matches = ItemLocation.objects.filter(section__in=sect,
                                       item__category__id__in=cat).order_by('section__name',
-                                                                           'item__name')
+                                                                           'item__name').distinct()
 
         found_list_appender(matches, found_items, found_category)
 
@@ -40,7 +43,7 @@ def search_items(item, manufacturer, cat, sect):
     if item != 'ALL' and manufacturer == 'ALL':
         matches = ItemLocation.objects.filter(item__name__contains=item, section__in=sect,
                                       item__category__id__in=cat).order_by('section__name',
-                                                                           'item__name')
+                                                                           'item__name').distinct()
 
         found_list_appender(matches, found_items, found_category)
 
@@ -49,7 +52,7 @@ def search_items(item, manufacturer, cat, sect):
         matches = ItemLocation.objects.filter(item__manufacturer__name__contains=manufacturer,
                                       section__in=sect,
                                       item__category__id__in=cat).order_by('section__name',
-                                                                           'item__name')
+                                                                           'item__name').distinct()
 
         found_list_appender(matches, found_items, found_category)
 
@@ -59,7 +62,7 @@ def search_items(item, manufacturer, cat, sect):
                                       item__manufacturer__name__contains=manufacturer,
                                       section__in=sect,
                                       item__category__id__in=cat).order_by('section__name',
-                                                                           'item__name')
+                                                                           'item__name').distinct()
 
         found_list_appender(matches, found_items, found_category)
 
