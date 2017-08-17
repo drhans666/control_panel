@@ -7,6 +7,7 @@ lower group can:<br>
 -log in/logout from panel<br>
 -send vacation day request<br>
 -read announcements<br>
+-simple search thru items
 
 higher group can:<br>
 -log in/logout from panel<br>
@@ -15,9 +16,9 @@ higher group can:<br>
 -query and accept/decline/delete vacation days requests<br>
 -read/write/edit announcements
 -add new items and place them in sections
+-simple and advanced search thru added items
 <br>
 TODO:<br>
-- Inventory section: items query view, stocktaking panel for lower group. <br>
+- Inventory section: stocktaking panel for lower group. <br>
 - frontend + jscript<br>
-- google calendar support ???
 
