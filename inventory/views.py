@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Item, Section
-from .forms import ItemForm, ItemLocationForm, QueryForm, ManufacturerForm, CategoryForm, SectionForm
-from .scripts import search_items, check_category_section
+from .forms import ItemForm, ItemLocationForm, QueryForm, ManufacturerForm,\
+    CategoryForm, SectionForm, SimpleSearch
+from .scripts import search_items, check_category_section, simple_item_search
 
 
 @login_required()
@@ -57,14 +58,19 @@ def new_item(request):
 @login_required()
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
-def show_items(request):
+def show_items_adv(request):
     if request.method == 'GET':
         form = QueryForm()
 
-        return render(request, 'inventory/show_items.html', {'form': form})
+        return render(request, 'inventory/show_items_adv.html', {'form': form})
     else:
         form = QueryForm(request.POST)
-        if form.is_valid():
+        if not form.is_valid():
+            form = QueryForm()
+            found_list = []
+            context = {'found_list': found_list, 'form': form}
+            return render(request, 'inventory/show_items_adv.html', context)
+        else:
             item = request.POST.get('item')
             item = str(item).upper()
             manufacturer = request.POST.get('manufacturer')
@@ -77,7 +83,7 @@ def show_items(request):
             form = QueryForm()
             context = {'found_list': found_list, 'form': form}
 
-            return render(request, 'inventory/show_items.html', context)
+            return render(request, 'inventory/show_items_adv.html', context)
 
 
 @login_required()
@@ -150,6 +156,29 @@ def new_section(request):
             text = '%s section added' % name
             context = {'form': form, 'text': text}
             return render(request, 'inventory/new_section.html', context)
+
+
+@login_required()
+def simple_search(request):
+    if request.method == 'GET':
+        form = SimpleSearch()
+        context = {'form': form}
+        return render(request, 'inventory/simple_search.html', context)
+    else:
+        form = SimpleSearch(request.POST)
+        if not form.is_valid():
+            form = SimpleSearch()
+            context = {'form': form}
+        else:
+            item = request.POST.get('item')
+            item = str(item).upper()
+            manufacturer = request.POST.get('manufacturer')
+            manufacturer = str(manufacturer).upper()
+            section = request.POST.getlist('section')
+            results = simple_item_search(item, manufacturer, section)
+            context = {'form': form, 'results': results}
+
+        return render(request, 'inventory/simple_search.html', context)
 
 
 def stocktaking(request):

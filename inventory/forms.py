@@ -52,6 +52,13 @@ class QueryForm(forms.Form):
                                              required=False)
 
 
+class SimpleSearch(forms.Form):
+
+    item = forms.CharField(max_length=40, initial='all')
+    manufacturer = forms.CharField(max_length=40, initial='all')
+    section = forms.ModelChoiceField(queryset=Section.objects.all(), label="section")
+
+
 class StocktakingForm(forms.Form):
 
     counted = forms.IntegerField(min_value=0)

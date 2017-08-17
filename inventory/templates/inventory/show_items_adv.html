@@ -10,7 +10,7 @@
 <body>
 <div class="col-sm-8">
 <h3>Select Filter</h3>
-<form class="form-inline" action="{% url 'inventory:show_items' %}" method="post" enctype="multipart/form-data">
+<form class="form-inline" action="{% url 'inventory:show_items_adv' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form %}
     <br>
