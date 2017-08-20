@@ -16,9 +16,9 @@ class VacationForm(ModelForm):
 
 class VacQuery(forms.Form):
     query_user = forms.CharField(required=False, max_length=30)
-    accepted = forms.ChoiceField(choices=((False, ("Not Accepted")),
-                                          (True, ("Accepted")),
-                                          ('all', ("All"))))
+    accepted = forms.ChoiceField(choices=(('all', ("All")),
+                                          (False, ("Not Accepted")),
+                                          (True, ("Accepted"))))
     search_from = forms.DateField(widget=AdminDateWidget, initial=date.today())
     search_to = forms.DateField(widget=AdminDateWidget, initial=date.today())
 

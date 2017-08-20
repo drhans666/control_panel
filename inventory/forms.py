@@ -1,3 +1,4 @@
+from datetime import date
 from django import forms
 from .models import Item, ItemLocation, Category, Section, Manufacturer
 
@@ -59,6 +60,3 @@ class SimpleSearch(forms.Form):
     section = forms.ModelChoiceField(queryset=Section.objects.all(), label="section")
 
 
-class StocktakingForm(forms.Form):
-
-    counted = forms.IntegerField(label="quantity", min_value=0)

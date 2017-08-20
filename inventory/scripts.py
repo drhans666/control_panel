@@ -1,6 +1,7 @@
 from .models import Category, Section, ItemLocation
-from django.db.models import Count, Sum
-from django.contrib.auth.models import User
+from django.db.models import Sum
+
+
 
 def found_list_appender(matches, found_items, found_category):
     for match in matches:
@@ -24,8 +25,6 @@ def check_category_section(category, section):
 
 
 def stocktaking_items(section):
-
-    # !!!! ogarnij kwestie multi sekcji w użytkowniku
     results = []
 
     matches = ItemLocation.objects.filter(section=section) \

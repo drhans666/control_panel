@@ -13,10 +13,10 @@ def vac_search(accepted, search_from, search_to, query_user):
     else:
         # filters with user parameter
         if accepted == 'all':
-            found = Vacation.objects.filter(user=query_user,
+            found = Vacation.objects.filter(user__contains=query_user,
                                             add_date__range=[search_from, search_to]).order_by('-id')
         else:
-            found = Vacation.objects.filter(user=query_user, accepted=accepted,
+            found = Vacation.objects.filter(user__contains=query_user, accepted=accepted,
                                             add_date__range=[search_from, search_to]).order_by('-id')
 
     for f in found:

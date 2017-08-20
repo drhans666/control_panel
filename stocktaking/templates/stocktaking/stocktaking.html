@@ -9,7 +9,7 @@
 </head>
 <body>
 <h3>{{ text }}</h3>
-<form class="form-vertical" action="{% url 'inventory:stocktaking' section %}" method="post" enctype="multipart/form-data">
+<form class="form-vertical" action="{% url 'stocktaking:stocktaking' section %}" method="post" enctype="multipart/form-data">
     <div class="col-sm-5">
         <h2>Results:</h2>
         <table class="table table-striped">

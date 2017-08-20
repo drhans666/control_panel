@@ -11,7 +11,7 @@
 <h3>Available Sections:</h3>
 <ul>
     {% for section, name in sections %}
-    <li><a href="{% url 'inventory:stocktaking' section %}">{{ name }}</a></li>
+    <li><a href="{% url 'stocktaking:stocktaking' section %}">{{ name }}</a></li>
 
     {% endfor %}
 </ul>

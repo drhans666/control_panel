@@ -50,10 +50,10 @@
           {% if request.user|has_group:"hi_user" %}
           <li><a href="{% url 'inventory:new_item' %}">Add new item</a></li>
           <li><a href="{% url 'inventory:add_to_section' %}">Assign item to section</a></li>
-          <li><a href="{% url 'inventory:show_stocktaking' %}">Query stocktakings</a></li>
+          <li><a href="{% url 'stocktaking:browse_stocktakings' %}">Browse stocktakings</a></li>
           {% endif %}
           <li><a href="{% url 'inventory:simple_search' %}">Show items</a></li>
-          <li><a href="{% url 'inventory:stock_section' %}">Stocktaking form</a></li>
+          <li><a href="{% url 'stocktaking:stock_section' %}">Stocktaking form</a></li>
         </ul>
       </li>
       {% if request.user|has_group:"hi_user" %}

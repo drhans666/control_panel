@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% extends "panel/base.html" %}
+{% block content %}
+{% load bootstrap3 %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="col-sm-3">
+    <h3>Select Filter</h3>
+<form action="{% url 'stocktaking:browse_stocktakings' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button name="submit" class="btn btn-primary">Search</button>
+    {% endbuttons %}
+</form>
+</div>
+</body>
+{% endblock content %}
+</html>
