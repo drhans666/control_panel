@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% extends "panel/base.html" %}
+{% block content %}
+{% load bootstrap3 %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Choose Section</title>
+</head>
+<body>
+<h3>Available Sections:</h3>
+<ul>
+    {% for section, name in sections %}
+    <li><a href="{% url 'inventory:stocktaking' section %}">{{ name }}</a></li>
+
+    {% endfor %}
+</ul>
+</body>
+{% endblock content %}
+</html>

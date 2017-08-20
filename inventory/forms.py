@@ -61,4 +61,4 @@ class SimpleSearch(forms.Form):
 
 class StocktakingForm(forms.Form):
 
-    counted = forms.IntegerField(min_value=0)
+    counted = forms.IntegerField(label="quantity", min_value=0)

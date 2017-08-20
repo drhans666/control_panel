@@ -29,7 +29,7 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>id</th>
+        <th>nr</th>
         <th>user</th>
         <th>nr of days</th>
         <th>start date</th>
@@ -42,7 +42,7 @@
     <tbody>
     {% for found in found_list %}
     <tr>
-        <td>{{ found.id }}</td>
+        <td>{{ forloop.counter }}</td>
         <td>{{ found.user }}</td>
         <td>{{ found.vac_days }}</td>
         <td>{{ found.start_date }}</td>

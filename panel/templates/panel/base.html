@@ -50,9 +50,20 @@
           {% if request.user|has_group:"hi_user" %}
           <li><a href="{% url 'inventory:new_item' %}">Add new item</a></li>
           <li><a href="{% url 'inventory:add_to_section' %}">Assign item to section</a></li>
+          <li><a href="{% url 'inventory:show_stocktaking' %}">Query stocktakings</a></li>
           {% endif %}
           <li><a href="{% url 'inventory:simple_search' %}">Show items</a></li>
-          <li><a href="{% url 'inventory:stocktaking' %}">Stocktaking form</a></li>
+          <li><a href="{% url 'inventory:stock_section' %}">Stocktaking form</a></li>
+        </ul>
+      </li>
+      {% if request.user|has_group:"hi_user" %}
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Users
+          <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="{% url 'users:register' %}">Add new user</a></li>
+          <li><a href="{% url 'users:assign_user' %}">User assignation</a></li>
+          {% endif %}
         </ul>
       </li>
       <li><a href="{% url 'users:logout' %}">Log out</a></li>
