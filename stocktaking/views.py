@@ -26,54 +26,45 @@ def stock_section(request):
 @login_required()
 def stocktaking(request, section):
     results = stocktaking_items(section)
+    form = StocktakingForm(request.POST)
+    context = {'results': results, 'form': form, 'text': '', 'section': section}
 
-    if request.method == 'GET':
-        form = StocktakingForm()
-        text = 'Stocktaking form for section: %s' % Section.objects.get(id=section).name
-        context = {'results': results, 'form': form, 'text': text, 'section': section}
-        return render(request, 'stocktaking/stocktaking.html', context)
-
-    else:
-        form = StocktakingForm(request.POST)
+    if request.method == 'GET' or not form.is_valid():
         if not form.is_valid():
-            form = StocktakingForm()
-            text = 'Form Error'
-            context = {'form': form, 'text': text, 'section': section}
-            return render(request, 'stocktaking/stocktaking.html', context)
+            context['text'] = 'Form Error'
         else:
-            counted = request.POST.getlist('counted')
-            text = 'Form Sent Successfully'
-
-            stock_values = zip(counted, results)
-            try:
-                latest_stock = Stocktaking.objects.latest('stock_id')
-                current_stock = int(latest_stock.stock_id) + 1
-            except ObjectDoesNotExist:
-                current_stock = 1
-            for counted, results in stock_values:
-                Stocktaking.objects.create(item=Item.objects.get(id=results.get('item')),
-                                           section=Section.objects.get(id=results.get('section')),
-                                           stock_quantity=(results.get('quantity_sum')),
-                                           counted=counted,
-                                           user=request.user,
-                                           stock_id=current_stock)
-
-        context = {'results': results, 'form': form, 'text': text, 'section': section}
+            context['text'] = 'Stocktaking form for section: %s' % Section.objects.get(id=section).name
         return render(request, 'stocktaking/stocktaking.html', context)
+
+    counted = request.POST.getlist('counted')
+    context['text'] = 'Form Sent Successfully'
+
+    stock_values = zip(counted, results)
+    try:
+        latest_stock = Stocktaking.objects.latest('stock_id')
+        current_stock = int(latest_stock.stock_id) + 1
+    except ObjectDoesNotExist:
+        current_stock = 1
+    for counted, results in stock_values:
+        # TODO: results gets overwritten here, what's correct?
+        Stocktaking.objects.create(item=Item.objects.get(id=results.get('item')),
+                                   section=Section.objects.get(id=results.get('section')),
+                                   stock_quantity=(results.get('quantity_sum')),
+                                   counted=counted,
+                                   user=request.user,
+                                   stock_id=current_stock)
+
+    return render(request, 'stocktaking/stocktaking.html', context)
 
 
 @login_required()
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def browse_stocktakings(request):
-    if request.method == 'GET':
-        form = BrowseStockForm()
-        context = {'form': form}
-        return render(request, 'stocktaking/browse_stocktakings.html', context)
-    else:
-        form = BrowseStockForm(request.POST)
-        context = {'form': form}
-        return render(request, 'stocktaking/browse_stocktakings.html', context)
+    form = BrowseStockForm(request.POST)
+    context = {'form': form}
+
+    return render(request, 'stocktaking/browse_stocktakings.html', context)
 
 
 @login_required()

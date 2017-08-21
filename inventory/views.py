@@ -11,172 +11,118 @@ from .scripts import search_items, check_category_section, simple_item_search
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def add_to_section(request):
-    if request.method == 'GET':
-        if request.method == 'GET':
-            form = ItemLocationForm()
-            text = ''
-            context = {'form': form, 'text': text}
-            return render(request, 'inventory/add_to_section.html', context)
-    else:
-        form = ItemLocationForm(request.POST)
-        if form.is_valid():
-            form = form.save(commit=False)
-            form.user = request.user
-            form.save()
-            text = 'Item added to section'
-            form = ItemLocationForm()
-            context = {'form': form, 'text': text}
-            return render(request, 'inventory/add_to_section.html', context)
-        else:
-            text = 'Item added'
-            context = {'form': form, 'text': text}
-            return render(request, 'inventory/add_to_section.html', context)
+    form = ItemLocationForm(request.POST)
+    context = {'form': form, 'text': ''}
+
+    if not form.is_valid():
+        return render(request, 'inventory/add_to_section.html', context)
+
+    model = form.save(commit=False)
+    model.user = request.user
+    model.save()
+
+    context = {'form': ItemLocationForm(), 'text': 'Item added to section'}
+    return render(request, 'inventory/add_to_section.html', context)
 
 
 @login_required()
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def new_item(request):
-    if request.method == 'GET':
-        form = ItemForm()
-        context = {'form': form}
+    form = ItemForm(request.POST)
+    context = {'form': form, 'text': ''}
+
+    if request.method == 'GET' or not form.is_valid():
+        if not form.is_valid():
+            context['text'] = 'Form Error'
         return render(request, 'inventory/new_item.html', context)
-    else:
-        form = ItemForm(request.POST)
-        if form.is_valid():
-            name = request.POST.get('name').capitalize()
-            form.save()
-            text = '%s saved successfully' % name
-            form = ItemForm()
-            context = {'form': form, 'text': text}
-            return render(request, 'inventory/new_item.html', context)
-        else:
-            text = 'Form Error'
-            context = {'form': form, 'text': text}
-            return render(request, 'inventory/new_item.html', context)
+
+    form.save()
+    context = {'form': ItemForm(), 'text': '%s saved successfully' % request.POST.get('name').capitalize()}
+    return render(request, 'inventory/new_item.html', context)
 
 
 @login_required()
 def simple_search(request):
-    if request.method == 'GET':
-        form = SimpleSearch()
-        context = {'form': form}
-        return render(request, 'inventory/simple_search.html', context)
-    else:
-        form = SimpleSearch(request.POST)
-        if not form.is_valid():
-            form = SimpleSearch()
-            context = {'form': form}
-        else:
-            item = request.POST.get('item')
-            item = str(item).upper()
-            manufacturer = request.POST.get('manufacturer')
-            manufacturer = str(manufacturer).upper()
-            section = request.POST.getlist('section')
-            results = simple_item_search(item, manufacturer, section)
-            context = {'form': form, 'results': results}
+    form = SimpleSearch(request.POST)
+    context = {'form': form}
 
+    if request.method == 'GET' or not form.is_valid():
         return render(request, 'inventory/simple_search.html', context)
+
+    item = str(request.POST.get('item')).upper()
+    manufacturer = str(request.POST.get('manufacturer')).upper()
+    section = request.POST.getlist('section')
+    context['results'] = simple_item_search(item, manufacturer, section)
+
+    return render(request, 'inventory/simple_search.html', context)
 
 
 @login_required()
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def show_items_adv(request):
-    if request.method == 'GET':
-        form = QueryForm()
+    form = QueryForm(request.POST)
+    context = {'form': form, 'found_list': []}
 
-        return render(request, 'inventory/show_items_adv.html', {'form': form})
-    else:
-        form = QueryForm(request.POST)
-        if not form.is_valid():
-            form = QueryForm()
-            found_list = []
-            context = {'found_list': found_list, 'form': form}
-            return render(request, 'inventory/show_items_adv.html', context)
-        else:
-            item = request.POST.get('item')
-            item = str(item).upper()
-            manufacturer = request.POST.get('manufacturer')
-            manufacturer = str(manufacturer).upper()
-            cat = request.POST.getlist('category')
-            sect = request.POST.getlist('section')
-            cat, sect = check_category_section(cat, sect)
-            found_list = search_items(item, manufacturer, cat, sect)
+    if request.method == 'GET' or not form.is_valid():
+        return render(request, 'inventory/show_items_adv.html', context)
 
-            form = QueryForm()
-            context = {'found_list': found_list, 'form': form}
+    item = str(request.POST.get('item')).upper()
+    manufacturer = str(request.POST.get('manufacturer')).upper()
+    cat = request.POST.getlist('category')
+    sect = request.POST.getlist('section')
+    cat, sect = check_category_section(cat, sect)
+    context = {'form': QueryForm(), 'found_list': search_items(item, manufacturer, cat, sect)}
 
-            return render(request, 'inventory/show_items_adv.html', context)
+    return render(request, 'inventory/show_items_adv.html', context)
 
 
 @login_required()
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def add_category(request):
-    if request.method == 'GET':
-        form = CategoryForm()
-        text = ''
-        context = {'form': form, 'text': text}
-        return render(request, 'inventory/add_category.html', context)
-    else:
-        form = CategoryForm(request.POST)
+    form = CategoryForm(request.POST)
+    context = {'form': form, 'text': ''}
+
+    if request.method == 'GET' or not form.is_valid():
         if not form.is_valid():
-            form = CategoryForm()
-            text = 'Form error'
-            context = {'form': form, 'text': text}
-            return render(request, 'inventory/add_category.html', context)
-        else:
-            name = request.POST.get('name').capitalize()
-            form.save()
-            text = '%s category added' % name
-            context = {'form': form, 'text': text}
-            return render(request, 'inventory/add_category.html', context)
+            context['text'] = 'Form Error'
+        return render(request, 'inventory/add_category.html', context)
+    name = request.POST.get('name').capitalize()
+    form.save()
+    context['text'] = '%s category added' % name
+    return render(request, 'inventory/add_category.html', context)
 
 
 @login_required()
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def add_manufacturer(request):
-    if request.method == 'GET':
-        form = ManufacturerForm()
-        text = ''
-        context = {'form': form, 'text': text}
-        return render(request, 'inventory/add_manufacturer.html', context)
-    else:
-        form = ManufacturerForm(request.POST)
+    form = ManufacturerForm(request.POST)
+    context = {'form': form, 'text': ''}
+    if request.method == 'GET' or not form.is_valid():
         if not form.is_valid():
-            form = ManufacturerForm()
-            text = 'Form error'
-            context = {'form': form, 'text': text}
-            return render(request, 'inventory/add_manufacturer.html', context)
-        else:
-            name = request.POST.get('name').capitalize()
-            form.save()
-            text = '%s manufacturer added' % name
-            context = {'form': form, 'text': text}
-            return render(request, 'inventory/add_manufacturer.html', context)
+            context['text'] = 'Form Error'
+        return render(request, 'inventory/add_manufacturer.html', context)
+    name = request.POST.get('name').capitalize()
+    form.save()
+    context['text'] = '%s manufacturer added' % name
+    return render(request, 'inventory/add_manufacturer.html', context)
 
 
 @login_required()
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def new_section(request):
-    if request.method == 'GET':
-        form = SectionForm()
-        text = ''
-        context = {'form': form, 'text': text}
-        return render(request, 'inventory/new_section.html', context)
-    else:
-        form = SectionForm(request.POST)
+    form = SectionForm(request.POST)
+    context = {'form': form, 'text': ''}
+    if request.method == 'GET' or not form.is_valid():
         if not form.is_valid():
-            form = SectionForm()
-            text = 'Form error'
-            context = {'form': form, 'text': text}
-            return render(request, 'inventory/new_section.html', context)
-        else:
-            name = request.POST.get('name').capitalize()
-            form.save()
-            text = '%s section added' % name
-            context = {'form': form, 'text': text}
-            return render(request, 'inventory/new_section.html', context)
+            context['text'] = 'Form Error'
+        return render(request, 'inventory/new_section.html', context)
+
+    name = request.POST.get('name').capitalize()
+    form.save()
+    context['text'] = '%s section added' % name
+    return render(request, 'inventory/new_section.html', context)

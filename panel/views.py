@@ -15,49 +15,41 @@ def index(request):
 
 @login_required()
 def vacat_form(request):
-    if request.method == 'GET':
-        form = VacationForm()
-        text = ''
-    else:
-        form = VacationForm(request.POST)
-        start_date = request.POST.get('start_date')
-        end_date = request.POST.get('end_date')
-        if form.is_valid() and start_date <= end_date:
-            user_overrid = form.save(commit=False)
-            user_overrid.user = request.user
-            user_overrid.save()
-            text = 'Vacation submitted successfullyy'
-            return render(request, 'panel/index.html', {'text': text})
+    form = VacationForm(request.POST)
+    context = {'form': form, 'text': ''}
 
-        else:
-            form = VacationForm()
-            text = 'Form Error. Try Again'
+    if request.method == 'GET' or not form.is_valid():
+        # TODO: move this into the form as a validation method
+        # start_date = request.POST.get('start_date')
+        # end_date = request.POST.get('end_date')
+        # if start_date <= end_date
+        if not form.is_valid():
+            context['text'] = 'Form Error. Try Again'
+        return render(request, 'panel/vacat_form.html', context)
 
-    context = {'form': form, 'text': text}
-    return render(request, 'panel/vacat_form.html', context)
+    model = form.save(commit=False)
+    model.user = request.user
+    model.save()
+    context = {'text': 'Vacation submitted successfully'}
+    return render(request, 'panel/index.html', context)
 
 
 @login_required()
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def vac_query(request):
-    if request.method == 'GET':
-        form = VacQuery
-    else:
-        form = VacQuery(request.POST)
-        if form.is_valid():
-            accepted = request.POST.get('accepted')
-            search_from = request.POST.get('search_from')
-            search_to = request.POST.get('search_to')
-            search_to = str(search_to) + ' 23:59:59'
-            query_user = request.POST.get('query_user')
-            found_list = vac_search(accepted, search_from, search_to, query_user)
-            context = {'form': form, 'found_list': found_list}
-            return render(request, 'panel/vac_query.html', context)
-
-        else:
-            form = VacQuery
+    form = VacQuery(request.POST)
     context = {'form': form}
+
+    if request.method == 'GET' or not form.is_valid():
+        return render(request, 'panel/vac_query.html', context)
+
+    accepted = request.POST.get('accepted')
+    search_from = request.POST.get('search_from')
+    search_to = request.POST.get('search_to')
+    search_to = str(search_to) + ' 23:59:59'
+    query_user = request.POST.get('query_user')
+    context['found_list'] = vac_search(accepted, search_from, search_to, query_user)
     return render(request, 'panel/vac_query.html', context)
 
 
@@ -66,28 +58,21 @@ def vac_query(request):
                   login_url='/users/access_denied.html')
 def vac_edit(request, vac_id):
     vac_edit_obj = Vacation.objects.get(id=vac_id)
-    if request.method == 'GET':
-        form = VacVerify()
-        text = ''
-        context = {'form': form, 'vac_edit_obj': vac_edit_obj, 'text': text}
+    form = VacVerify(request.POST)
+    context = {'form': form, 'vac_edit_obj': vac_edit_obj, 'text': ''}
+
+    if request.method == 'GET' or not form.is_valid():
+        if not form.is_valid():
+            context['text'] = 'Form Error'
         return render(request, 'panel/vac_edit.html', context)
 
-    else:
-        form = VacVerify(request.POST)
-        if not form.is_valid():
-            form = VacVerify()
-            text = 'Form error'
-            context = {'form': form, 'vac_edit_obj': vac_edit_obj, 'text': text}
-            return render(request, 'panel/vac_edit.html', context)
+    decision = request.POST.get('decision')
+    return_dec = apply_dec(vac_edit_obj, decision)
+    if return_dec == 'deleted':
+        context = {'form': VacQuery()}
+        return render(request, 'panel/vac_query.html', context)
 
-        decision = request.POST.get('decision')
-        return_dec = apply_dec(vac_edit_obj, decision)
-        if return_dec == 'deleted':
-            form = VacQuery
-            context = {'form': form}
-            return render(request, 'panel/vac_query.html', context)
-
-        return HttpResponseRedirect(reverse('panel:vac_edit', args=[vac_id]))
+    return HttpResponseRedirect(reverse('panel:vac_edit', args=[vac_id]))
 
 
 @login_required()

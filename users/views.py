@@ -16,19 +16,16 @@ def logout_view(request):
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def register(request):
-    if request.method == 'GET':
-        form = UserCreationForm
-    else:
-        form = UserCreationForm(request.POST)
-
-        if form.is_valid():
-            new_user = form.save()
-            new_user.groups.set([1])
-            text = 'User added successfully'
-            return render(request, 'panel/index.html', {'text': text})
-
+    form = UserCreationForm(request.POST)
     context = {'form': form}
-    return render(request, 'users/register.html', context)
+
+    if request.method == 'GET' or not form.is_valid():
+        return render(request, 'users/register.html', context)
+
+    model = form.save()
+    model.groups.set([1])
+    context['text'] = 'User added successfully'
+    return render(request, 'panel/index.html', context)
 
 
 def access_denied(request):
@@ -39,19 +36,12 @@ def access_denied(request):
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def assign_user(request):
-    if request == 'GET':
-        form = EmployeeForm()
-        text = ''
-        context = {'form': form, 'text': text}
-    else:
-        form = EmployeeForm(request.POST)
-        if form.is_valid():
-            form.save()
-            text = 'User assigned'
-            context = {'form': form, 'text': text}
-        else:
-            form = EmployeeForm()
-            text = ''
-            context = {'form': form, 'text': text}
+    form = EmployeeForm(request.POST)
+    context = {'form': form, 'text': ''}
+
+    if request == 'GET' or not form.is_valid():
+        return render(request, 'users/assign_user.html', context)
+    form.save()
+    context['text'] = 'User assigned'
 
     return render(request, 'users/assign_user.html', context)
