@@ -35,3 +35,12 @@ TODO:
 * Inventory section: removing items from sections
 * frontend + javascript
 
+## Installation
+
+* clone sources
+* create database and db user, set as env vars, ex. DJANGO_DBNAME, DJANGO_DBUSER, DJANGO_DBPASS
+* apply migrations: `python manage.py migrate`
+* add superuser by calling `python manage.py createsuperuser`
+* add two groups: `hi_user`, `low_user`: `g = Group(name='hi_user'); u = User.objects.first(); u.groups.add(g)`
+* log in and start using the app!
+
