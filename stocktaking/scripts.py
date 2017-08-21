@@ -1,5 +1,5 @@
 from inventory.models import ItemLocation
-from django.db.models import Count, Sum
+from django.db.models import Sum
 
 
 def stocktaking_items(section):

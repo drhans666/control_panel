@@ -180,5 +180,3 @@ def new_section(request):
             text = '%s section added' % name
             context = {'form': form, 'text': text}
             return render(request, 'inventory/new_section.html', context)
-
-

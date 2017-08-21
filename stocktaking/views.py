@@ -9,7 +9,6 @@ from .forms import StocktakingForm, BrowseStockForm
 from .scripts import stocktaking_items
 
 
-
 @login_required()
 def stock_section(request):
     section_ids = []
@@ -31,7 +30,7 @@ def stocktaking(request, section):
     if request.method == 'GET':
         form = StocktakingForm()
         text = 'Stocktaking form for section: %s' % Section.objects.get(id=section).name
-        context = {'results': results, 'form': form, 'text': text, 'section':section}
+        context = {'results': results, 'form': form, 'text': text, 'section': section}
         return render(request, 'stocktaking/stocktaking.html', context)
 
     else:
@@ -39,7 +38,7 @@ def stocktaking(request, section):
         if not form.is_valid():
             form = StocktakingForm()
             text = 'Form Error'
-            context = {'form': form, 'text': text, 'section':section}
+            context = {'form': form, 'text': text, 'section': section}
             return render(request, 'stocktaking/stocktaking.html', context)
         else:
             counted = request.POST.getlist('counted')
@@ -48,7 +47,7 @@ def stocktaking(request, section):
             stock_values = zip(counted, results)
             try:
                 latest_stock = Stocktaking.objects.latest('stock_id')
-                current_stock = int(latest_stock.stock_id) +1
+                current_stock = int(latest_stock.stock_id) + 1
             except ObjectDoesNotExist:
                 current_stock = 1
             for counted, results in stock_values:
@@ -59,7 +58,7 @@ def stocktaking(request, section):
                                            user=request.user,
                                            stock_id=current_stock)
 
-        context = {'results': results, 'form': form, 'text': text, 'section':section}
+        context = {'results': results, 'form': form, 'text': text, 'section': section}
         return render(request, 'stocktaking/stocktaking.html', context)
 
 
@@ -82,4 +81,3 @@ def browse_stocktakings(request):
                   login_url='/users/access_denied.html')
 def show_stocktaking(request):
     return render(request, 'stocktaking/show_stocktaking.html')
-

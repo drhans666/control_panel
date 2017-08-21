@@ -8,9 +8,6 @@ from .models import Vacation
 from .scripts import vac_search, apply_dec
 
 
-
-
-
 def index(request):
     text = 'hello costam'
     return render(request, 'panel/index.html', {'text': text})
@@ -92,14 +89,15 @@ def vac_edit(request, vac_id):
 
         return HttpResponseRedirect(reverse('panel:vac_edit', args=[vac_id]))
 
+
 @login_required()
 def vac_now(request):
     days_list = []
-    found = Vacation.objects.filter(accepted=True, end_date__gte=date.today() ).order_by('end_date')
+    found = Vacation.objects.filter(accepted=True, end_date__gte=date.today()).order_by('end_date')
     for f in found:
         days = f.end_date - date.today()
         days_list.append(str(days)[:-9])
     lists = zip(found, days_list)
 
-    context = {'lists':lists}
+    context = {'lists': lists}
     return render(request, 'panel/vac_now.html', context)

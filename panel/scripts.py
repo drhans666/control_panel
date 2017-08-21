@@ -35,8 +35,3 @@ def apply_dec(vac_edit_obj, decision):
         else:
             vac_edit_obj.delete()
             return 'deleted'
-
-
-
-
-

@@ -11,4 +11,3 @@ class Anon(models.Model):
 
     def __str__(self):
         return self.title[:50] + '...'
-

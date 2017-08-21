@@ -1,27 +1,37 @@
-# control_panel
-Currently development still in progress.<br>
-<br>
-Features available FOR NOW: <br>
--Users are assigned to sections and privileges groups
-lower group can:<br>
--log in/logout from panel<br>
--send vacation day request<br>
--read announcements<br>
--simple search thru items
--send stocktaking form
+Control Panel
+=============
 
-higher group can:<br>
--log in/logout from panel<br>
--create new user (lower group only. higher group users can be created by admin)<br>
--set vacation days<br>
--query and accept/decline/delete vacation days requests<br>
--read/write/edit announcements
--add new items and place them in sections
--simple and advanced search thru added items
--send stocktaking form
-<br>
-TODO:<br>
-- Inventory section: browsing thru stocktaking forms. <br>
-- Inventory section: removing items from sections <br>
-- frontend + jscript<br>
+Currently development still in progress.
+
+Available features:
+
+* Users are assigned to sections and privileges groups
+
+
+Lower group can:
+
+* log in/logout from panel
+* send vacation day request
+* read announcements
+* simple search through items
+* send stocktaking form
+
+
+Higher group can:
+
+* log in/logout from panel
+* create new user in a lower group; higher group users can be created by admin
+* set vacation days
+* query and accept/decline/delete vacation days requests
+* read/write/edit announcements
+* add new items and place them in sections
+* simple and advanced search through added items
+* send stocktaking form
+
+
+TODO:
+
+* Inventory section: browsing through stocktaking forms
+* Inventory section: removing items from sections
+* frontend + javascript
 

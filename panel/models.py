@@ -11,7 +11,3 @@ class Vacation(models.Model):
     vac_days = models.IntegerField(verbose_name='Vacation days to use:', default=0,
                                    validators=[MinValueValidator(1)])
     accepted = models.BooleanField(default=False)
-
-
-
-

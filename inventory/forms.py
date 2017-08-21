@@ -1,4 +1,3 @@
-from datetime import date
 from django import forms
 from .models import Item, ItemLocation, Category, Section, Manufacturer
 
@@ -58,5 +57,3 @@ class SimpleSearch(forms.Form):
     item = forms.CharField(max_length=40, initial='all')
     manufacturer = forms.CharField(max_length=40, initial='all')
     section = forms.ModelChoiceField(queryset=Section.objects.all(), label="section")
-
-

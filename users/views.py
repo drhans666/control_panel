@@ -42,18 +42,16 @@ def assign_user(request):
     if request == 'GET':
         form = EmployeeForm()
         text = ''
-        context = {'form': form, 'text':text}
+        context = {'form': form, 'text': text}
     else:
         form = EmployeeForm(request.POST)
         if form.is_valid():
             form.save()
             text = 'User assigned'
-            context = {'form': form, 'text':text}
+            context = {'form': form, 'text': text}
         else:
             form = EmployeeForm()
             text = ''
-            context = {'form': form, 'text':text}
+            context = {'form': form, 'text': text}
 
     return render(request, 'users/assign_user.html', context)
-
-
