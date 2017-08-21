@@ -15,16 +15,18 @@ def index(request):
 
 @login_required()
 def vacat_form(request):
-    form = VacationForm(request.POST)
+    form = VacationForm(request.POST or None)
     context = {'form': form, 'text': ''}
 
-    if request.method == 'GET' or not form.is_valid():
+    if request.method == 'GET':
+        return render(request, 'panel/vacat_form.html', context)
+
+    if not form.is_valid():
         # TODO: move this into the form as a validation method
         # start_date = request.POST.get('start_date')
         # end_date = request.POST.get('end_date')
         # if start_date <= end_date
-        if not form.is_valid():
-            context['text'] = 'Form Error. Try Again'
+        context['text'] = 'Form Error. Try Again'
         return render(request, 'panel/vacat_form.html', context)
 
     model = form.save(commit=False)
@@ -61,9 +63,11 @@ def vac_edit(request, vac_id):
     form = VacVerify(request.POST)
     context = {'form': form, 'vac_edit_obj': vac_edit_obj, 'text': ''}
 
-    if request.method == 'GET' or not form.is_valid():
-        if not form.is_valid():
-            context['text'] = 'Form Error'
+    if request.method == 'GET':
+        return render(request, 'panel/vac_edit.html', context)
+
+    if not form.is_valid():
+        context['text'] = 'Form Error'
         return render(request, 'panel/vac_edit.html', context)
 
     decision = request.POST.get('decision')

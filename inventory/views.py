@@ -32,9 +32,11 @@ def new_item(request):
     form = ItemForm(request.POST)
     context = {'form': form, 'text': ''}
 
-    if request.method == 'GET' or not form.is_valid():
-        if not form.is_valid():
-            context['text'] = 'Form Error'
+    if request.method == 'GET':
+        return render(request, 'inventory/new_item.html', context)
+
+    if not form.is_valid():
+        context['text'] = 'Form Error'
         return render(request, 'inventory/new_item.html', context)
 
     form.save()
@@ -84,11 +86,13 @@ def show_items_adv(request):
 def add_category(request):
     form = CategoryForm(request.POST)
     context = {'form': form, 'text': ''}
-
-    if request.method == 'GET' or not form.is_valid():
-        if not form.is_valid():
-            context['text'] = 'Form Error'
+    if request.method == 'GET':
         return render(request, 'inventory/add_category.html', context)
+
+    if not form.is_valid():
+        context['text'] = 'Form Error'
+        return render(request, 'inventory/add_category.html', context)
+
     name = request.POST.get('name').capitalize()
     form.save()
     context['text'] = '%s category added' % name
@@ -101,10 +105,14 @@ def add_category(request):
 def add_manufacturer(request):
     form = ManufacturerForm(request.POST)
     context = {'form': form, 'text': ''}
-    if request.method == 'GET' or not form.is_valid():
-        if not form.is_valid():
-            context['text'] = 'Form Error'
+
+    if request.method == 'GET':
         return render(request, 'inventory/add_manufacturer.html', context)
+
+    if not form.is_valid():
+        context['text'] = 'Form Error'
+        return render(request, 'inventory/add_manufacturer.html', context)
+
     name = request.POST.get('name').capitalize()
     form.save()
     context['text'] = '%s manufacturer added' % name
@@ -117,9 +125,12 @@ def add_manufacturer(request):
 def new_section(request):
     form = SectionForm(request.POST)
     context = {'form': form, 'text': ''}
-    if request.method == 'GET' or not form.is_valid():
-        if not form.is_valid():
-            context['text'] = 'Form Error'
+
+    if request.method == 'GET':
+        return render(request, 'inventory/new_section.html', context)
+
+    if not form.is_valid():
+        context['text'] = 'Form Error'
         return render(request, 'inventory/new_section.html', context)
 
     name = request.POST.get('name').capitalize()

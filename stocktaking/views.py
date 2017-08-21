@@ -29,11 +29,12 @@ def stocktaking(request, section):
     form = StocktakingForm(request.POST)
     context = {'results': results, 'form': form, 'text': '', 'section': section}
 
-    if request.method == 'GET' or not form.is_valid():
-        if not form.is_valid():
-            context['text'] = 'Form Error'
-        else:
-            context['text'] = 'Stocktaking form for section: %s' % Section.objects.get(id=section).name
+    if request.method == 'GET':
+        context['text'] = 'Stocktaking form for section: %s' % Section.objects.get(id=section).name
+        return render(request, 'stocktaking/stocktaking.html', context)
+
+    if not form.is_valid():
+        context['text'] = 'Form Error'
         return render(request, 'stocktaking/stocktaking.html', context)
 
     counted = request.POST.getlist('counted')
