@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '<secret_key>'
+SECRET_KEY = os.getenv('DJANGO_SECRET', '19698b0b89c1567f57df1a2507ce0e5d')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'stocktaking',
     # third party apps
     'bootstrap3',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -72,11 +73,11 @@ WSGI_APPLICATION = 'control.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '<name>',
-        'USER': '<user>',
-        'PASSWORD': '<password>',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': os.getenv('DJANGO_DBNAME', 'control_panel'),
+        'USER': os.getenv('DJANGO_DBUSER', 'control_panel'),
+        'PASSWORD': os.getenv('DJANGO_DBPASS', 'control_panel'),
+        'HOST': os.getenv('DJANGO_DBHOST', 'localhost'),
+        'PORT': os.getenv('DJANGO_DBPORT', '5432'),
     }
 }
 
@@ -117,5 +118,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = ['/static/', ]
+STATICFILES_DIRS = []
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
