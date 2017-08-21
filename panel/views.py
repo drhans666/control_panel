@@ -40,7 +40,7 @@ def vacat_form(request):
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def vac_query(request):
-    form = VacQuery(request.POST)
+    form = VacQuery(request.POST or None)
     context = {'form': form}
 
     if request.method == 'GET' or not form.is_valid():
@@ -60,7 +60,7 @@ def vac_query(request):
                   login_url='/users/access_denied.html')
 def vac_edit(request, vac_id):
     vac_edit_obj = Vacation.objects.get(id=vac_id)
-    form = VacVerify(request.POST)
+    form = VacVerify(request.POST or None)
     context = {'form': form, 'vac_edit_obj': vac_edit_obj, 'text': ''}
 
     if request.method == 'GET':

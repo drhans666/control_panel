@@ -11,7 +11,7 @@ from .scripts import search_items, check_category_section, simple_item_search
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def add_to_section(request):
-    form = ItemLocationForm(request.POST)
+    form = ItemLocationForm(request.POST or None)
     context = {'form': form, 'text': ''}
 
     if not form.is_valid():
@@ -29,7 +29,7 @@ def add_to_section(request):
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def new_item(request):
-    form = ItemForm(request.POST)
+    form = ItemForm(request.POST or None)
     context = {'form': form, 'text': ''}
 
     if request.method == 'GET':
@@ -46,7 +46,7 @@ def new_item(request):
 
 @login_required()
 def simple_search(request):
-    form = SimpleSearch(request.POST)
+    form = SimpleSearch(request.POST or None)
     context = {'form': form}
 
     if request.method == 'GET' or not form.is_valid():
@@ -64,7 +64,7 @@ def simple_search(request):
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def show_items_adv(request):
-    form = QueryForm(request.POST)
+    form = QueryForm(request.POST or None)
     context = {'form': form, 'found_list': []}
 
     if request.method == 'GET' or not form.is_valid():
@@ -84,7 +84,7 @@ def show_items_adv(request):
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def add_category(request):
-    form = CategoryForm(request.POST)
+    form = CategoryForm(request.POST or None)
     context = {'form': form, 'text': ''}
     if request.method == 'GET':
         return render(request, 'inventory/add_category.html', context)
@@ -103,7 +103,7 @@ def add_category(request):
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def add_manufacturer(request):
-    form = ManufacturerForm(request.POST)
+    form = ManufacturerForm(request.POST or None)
     context = {'form': form, 'text': ''}
 
     if request.method == 'GET':
@@ -123,7 +123,7 @@ def add_manufacturer(request):
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def new_section(request):
-    form = SectionForm(request.POST)
+    form = SectionForm(request.POST or None)
     context = {'form': form, 'text': ''}
 
     if request.method == 'GET':

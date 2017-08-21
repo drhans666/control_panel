@@ -26,7 +26,7 @@ def stock_section(request):
 @login_required()
 def stocktaking(request, section):
     results = stocktaking_items(section)
-    form = StocktakingForm(request.POST)
+    form = StocktakingForm(request.POST or None)
     context = {'results': results, 'form': form, 'text': '', 'section': section}
 
     if request.method == 'GET':
@@ -62,7 +62,7 @@ def stocktaking(request, section):
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def browse_stocktakings(request):
-    form = BrowseStockForm(request.POST)
+    form = BrowseStockForm(request.POST or None)
     context = {'form': form}
 
     return render(request, 'stocktaking/browse_stocktakings.html', context)

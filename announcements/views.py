@@ -16,7 +16,7 @@ def all_anon(request):
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def new_anon(request):
-    form = AnonForm(request.POST)
+    form = AnonForm(request.POST or None)
     context = {'form': form}
 
     if request.method == 'GET' or not form.is_valid():
@@ -34,7 +34,7 @@ def new_anon(request):
                   login_url='/users/access_denied.html')
 def edit_anon(request, anon_id):
     model = Anon.objects.get(id=anon_id)
-    form = AnonForm(instance=model, data=request.POST)
+    form = AnonForm(instance=model, data=request.POST or None)
     context = {'form': form, 'anon_edit_obj': model}
 
     if request.method == 'GET' or not form.is_valid():

@@ -16,7 +16,7 @@ def logout_view(request):
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def register(request):
-    form = UserCreationForm(request.POST)
+    form = UserCreationForm(request.POST or None)
     context = {'form': form}
 
     if request.method == 'GET' or not form.is_valid():
@@ -36,11 +36,12 @@ def access_denied(request):
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def assign_user(request):
-    form = EmployeeForm(request.POST)
+    form = EmployeeForm(request.POST or None)
     context = {'form': form, 'text': ''}
 
-    if request == 'GET' or not form.is_valid():
+    if request.method == 'GET' or not form.is_valid():
         return render(request, 'users/assign_user.html', context)
+
     form.save()
     context['text'] = 'User assigned'
 
