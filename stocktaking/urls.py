@@ -6,4 +6,4 @@ urlpatterns = [
     url(r'browse_stocktakings', views.browse_stocktakings, name='browse_stocktakings'),
     url(r'stock_section', views.stock_section, name='stock_section'),
     url(r'stocktaking/(?P<section>\d+)/', views.stocktaking, name='stocktaking'),
-    ]
+]

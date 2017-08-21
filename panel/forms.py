@@ -27,4 +27,3 @@ class VacVerify(forms.Form):
     decision = forms.ChoiceField(choices=((True, ("Accept")),
                                           (False, ("Refuse")),
                                           ('delete', ("Delete"))))
-

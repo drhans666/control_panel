@@ -66,5 +66,3 @@ class Item(models.Model):
     class Meta:
         unique_together = ('name', 'manufacturer')
         ordering = ('name',)
-
-
