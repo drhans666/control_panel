@@ -19,8 +19,14 @@
     {% buttons %}
     <button name="submit" class="btn btn-primary">Submit</button>
     {% endbuttons %}
-    {{ text }}
 </form>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 </div>
 </body>
 {% endblock content %}

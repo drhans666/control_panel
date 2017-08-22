@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, user_passes_test
-
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 from .forms import ItemForm, ItemLocationForm, QueryForm, ManufacturerForm,\
     CategoryForm, SectionForm, SimpleSearch
@@ -20,9 +22,8 @@ def add_to_section(request):
     model = form.save(commit=False)
     model.user = request.user
     model.save()
-
-    context = {'form': ItemLocationForm(), 'text': 'Item added to section'}
-    return render(request, 'inventory/add_to_section.html', context)
+    messages.success(request, 'Item added to section.')
+    return HttpResponseRedirect(reverse('inventory:add_to_section'))
 
 
 @login_required()
@@ -30,18 +31,18 @@ def add_to_section(request):
                   login_url='/users/access_denied.html')
 def new_item(request):
     form = ItemForm(request.POST or None)
-    context = {'form': form, 'text': ''}
+    context = {'form': form}
 
     if request.method == 'GET':
         return render(request, 'inventory/new_item.html', context)
 
     if not form.is_valid():
-        context['text'] = 'Form Error'
+        messages.error(request, 'Form error')
         return render(request, 'inventory/new_item.html', context)
 
     form.save()
-    context = {'form': ItemForm(), 'text': '%s saved successfully' % request.POST.get('name').capitalize()}
-    return render(request, 'inventory/new_item.html', context)
+    messages.success(request, '%s added to section.' % request.POST.get('name').capitalize())
+    return HttpResponseRedirect(reverse('inventory:new_item'))
 
 
 @login_required()
@@ -85,18 +86,17 @@ def show_items_adv(request):
                   login_url='/users/access_denied.html')
 def add_category(request):
     form = CategoryForm(request.POST or None)
-    context = {'form': form, 'text': ''}
+    context = {'form': form}
     if request.method == 'GET':
         return render(request, 'inventory/add_category.html', context)
 
     if not form.is_valid():
-        context['text'] = 'Form Error'
+        messages.error(request, 'Form Error')
         return render(request, 'inventory/add_category.html', context)
 
-    name = request.POST.get('name').capitalize()
     form.save()
-    context['text'] = '%s category added' % name
-    return render(request, 'inventory/add_category.html', context)
+    messages.success(request, '%s category added' % request.POST.get('name').capitalize())
+    return HttpResponseRedirect(reverse('inventory:add_category'))
 
 
 @login_required()
@@ -104,19 +104,18 @@ def add_category(request):
                   login_url='/users/access_denied.html')
 def add_manufacturer(request):
     form = ManufacturerForm(request.POST or None)
-    context = {'form': form, 'text': ''}
+    context = {'form': form}
 
     if request.method == 'GET':
         return render(request, 'inventory/add_manufacturer.html', context)
 
     if not form.is_valid():
-        context['text'] = 'Form Error'
+        messages.error(request, 'Form error')
         return render(request, 'inventory/add_manufacturer.html', context)
 
-    name = request.POST.get('name').capitalize()
     form.save()
-    context['text'] = '%s manufacturer added' % name
-    return render(request, 'inventory/add_manufacturer.html', context)
+    messages.success(request, '%s manufacturer added' % request.POST.get('name').capitalize())
+    return HttpResponseRedirect(reverse('inventory:add_manufacturer'))
 
 
 @login_required()
@@ -124,16 +123,15 @@ def add_manufacturer(request):
                   login_url='/users/access_denied.html')
 def new_section(request):
     form = SectionForm(request.POST or None)
-    context = {'form': form, 'text': ''}
+    context = {'form': form}
 
     if request.method == 'GET':
         return render(request, 'inventory/new_section.html', context)
 
     if not form.is_valid():
-        context['text'] = 'Form Error'
+        messages.error(request, 'Form error')
         return render(request, 'inventory/new_section.html', context)
 
-    name = request.POST.get('name').capitalize()
     form.save()
-    context['text'] = '%s section added' % name
-    return render(request, 'inventory/new_section.html', context)
+    messages.success(request, '%s section added' % request.POST.get('name').capitalize())
+    return HttpResponseRedirect(reverse('inventory:new_section'))
