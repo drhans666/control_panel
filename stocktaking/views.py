@@ -46,12 +46,11 @@ def stocktaking(request, section):
         current_stock = int(latest_stock.stock_id) + 1
     except ObjectDoesNotExist:
         current_stock = 1
-    for counted, results in stock_values:
-        # TODO: results gets overwritten here, what's correct?
-        Stocktaking.objects.create(item=Item.objects.get(id=results.get('item')),
-                                   section=Section.objects.get(id=results.get('section')),
-                                   stock_quantity=(results.get('quantity_sum')),
-                                   counted=counted,
+    for counted_item, results_item in stock_values:
+        Stocktaking.objects.create(item=Item.objects.get(id=results_item.get('item')),
+                                   section=Section.objects.get(id=results_item.get('section')),
+                                   stock_quantity=(results_item.get('quantity_sum')),
+                                   counted=counted_item,
                                    user=request.user,
                                    stock_id=current_stock)
 
