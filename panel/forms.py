@@ -2,16 +2,21 @@ from datetime import date
 from django.forms import ModelForm
 from .models import Vacation
 from django import forms
-from django.contrib.admin.widgets import AdminDateWidget
 
 
 class VacationForm(ModelForm):
+
+    def clean(self):
+        cleaned_data = super(VacationForm, self).clean()
+        start_date = cleaned_data.get('start_date')
+        end_date = cleaned_data.get('end_date')
+        if start_date > end_date:
+            raise forms.ValidationError('End date must be greater then start date')
+
     class Meta:
         model = Vacation
         fields = '__all__'
-        exclude = ['accepted', 'user']
-        start_date = forms.DateField(widget=AdminDateWidget)
-        end_date = forms.DateField(widget=AdminDateWidget)
+        exclude = ['accepted', 'user', 'vac_days']
 
 
 class VacQuery(forms.Form):
@@ -19,8 +24,8 @@ class VacQuery(forms.Form):
     accepted = forms.ChoiceField(choices=(('all', ("All")),
                                           (False, ("Not Accepted")),
                                           (True, ("Accepted"))))
-    search_from = forms.DateField(widget=AdminDateWidget, initial=date.today())
-    search_to = forms.DateField(widget=AdminDateWidget, initial=date.today())
+    search_from = forms.DateField(initial=date.today())
+    search_to = forms.DateField(initial=date.today())
 
 
 class VacVerify(forms.Form):
