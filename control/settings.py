@@ -73,9 +73,9 @@ WSGI_APPLICATION = 'control.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('DJANGO_DBNAME', 'controlbase'),
-        'USER': os.getenv('DJANGO_DBUSER', 'controlbaseuser'),
-        'PASSWORD': os.getenv('DJANGO_DBPASS', 'qdlatyiseba'),
+        'NAME': os.getenv('DJANGO_DBNAME', 'control_panel'),
+        'USER': os.getenv('DJANGO_DBUSER', 'control_panel'),
+        'PASSWORD': os.getenv('DJANGO_DBPASS', 'control_panel'),
         'HOST': os.getenv('DJANGO_DBHOST', 'localhost'),
         'PORT': os.getenv('DJANGO_DBPORT', '5432'),
     }
