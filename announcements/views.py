@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 from .models import Anon
 from .forms import AnonForm
@@ -25,8 +28,9 @@ def new_anon(request):
     model = form.save(commit=False)
     model.owner = request.user
     model.save()
-    text = "Announcement Saved"
-    return render(request, 'panel/index.html', {'text': text})
+    messages.success(request, 'Announcement posted.')
+
+    return HttpResponseRedirect(reverse('announcements:new_anon'))
 
 
 @login_required()
@@ -41,5 +45,5 @@ def edit_anon(request, anon_id):
         return render(request, 'announcements/edit_anon.html', context)
 
     form.save()
-    text = "Announcement Edited Successfully"
-    return render(request, 'panel/index.html', {'text': text})
+    messages.success(request, 'Announcement edited successfully.')
+    return HttpResponseRedirect(reverse('announcements:edit_anon', args=[anon_id]))

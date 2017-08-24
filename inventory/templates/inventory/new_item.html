@@ -23,8 +23,14 @@
     {% buttons %}
     <button name="submit" class="btn btn-primary">Add new item</button>
     {% endbuttons %}
-    {{ text }}
 </form>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 </div>
 </body>
 {% endblock content %}
