@@ -1,8 +1,11 @@
 from datetime import date
+import time
+
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
+
 from .forms import VacationForm, VacQuery, VacVerify
 from .models import Vacation
 from .scripts import vac_search, apply_dec, count_vac_days
@@ -25,11 +28,11 @@ def vacat_form(request):
         context['text'] = 'Form Error. Try Again'
         return render(request, 'panel/vacat_form.html', context)
 
-    start_date = request.POST.get('start_date')
-    end_date = request.POST.get('end_date')
+    start_date = time.strptime(request.POST.get('start_date'), '%Y-%m-%d')
+    end_date = time.strptime(request.POST.get('end_date'), '%Y-%m-%d')
     model = form.save(commit=False)
-    model.user = request.user
     model.vac_days = count_vac_days(start_date, end_date)
+    model.user = request.user
     model.save()
     context = {'text': 'Vacation submitted successfully'}
     return render(request, 'panel/index.html', context)

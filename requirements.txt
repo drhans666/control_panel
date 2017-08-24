@@ -2,5 +2,4 @@ django
 django-extensions
 django-bootstrap3
 psycopg2
-numpy
 workalendar

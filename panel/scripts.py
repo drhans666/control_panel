@@ -1,6 +1,6 @@
-import numpy as np
-import datetime as dt
+from datetime import timedelta, date
 import time
+
 from workalendar.europe import Poland
 
 from .models import Vacation
@@ -43,33 +43,16 @@ def apply_dec(vac_edit_obj, decision):
 
 
 def count_vac_days(start_date, end_date):
-    holidays = []
-    start_date_obj = time.strptime(start_date, '%Y-%m-%d')
-    end_date_obj = time.strptime(end_date, '%Y-%m-%d')
-    start = dt.date(start_date_obj.tm_year, start_date_obj.tm_mon, start_date_obj.tm_mday)
-    end = dt.date(end_date_obj.tm_year, end_date_obj.tm_mon, end_date_obj.tm_mday)
-    free_days = np.busday_count(start, end) + 1
-
-    # if start and end of vacation in same year
-    if start_date_obj.tm_year == end_date_obj.tm_year:
-        for i in Poland().holidays(end_date_obj.tm_year):
-            # if holiday is not saturday or sunday than its's additional free day
-            if i[0].weekday() not in [5, 6]:
-                holidays.append(i[0])
-    # if vacation start day is in different year than end day
-    else:
-        for i in Poland().holidays(start_date_obj.tm_year):
-            if i[0].weekday() not in [5, 6]:
-                holidays.append(i[0])
-        for i in Poland().holidays(end_date_obj.tm_year):
-            if i[0].weekday() not in [5, 6]:
-                holidays.append(i[0])
-
+    start = date(start_date.tm_year, start_date.tm_mon, start_date.tm_mday)
+    end = date(end_date.tm_year, end_date.tm_mon, end_date.tm_mday)
+    free_days = 0
     delta = end - start
     for i in range(delta.days + 1):
-        if (start + dt.timedelta(days=i)) in holidays:
-            free_days = free_days - 1
+        if Poland().is_working_day(start + timedelta(days=i)) is True:
+            free_days = free_days + 1
     return free_days
+
+
 
 
 
