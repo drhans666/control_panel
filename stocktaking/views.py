@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 
 from .models import Stocktaking, Item, Section
@@ -34,12 +37,10 @@ def stocktaking(request, section):
         return render(request, 'stocktaking/stocktaking.html', context)
 
     if not form.is_valid():
-        context['text'] = 'Form Error'
+        messages.error(request, 'Form error.')
         return render(request, 'stocktaking/stocktaking.html', context)
 
     counted = request.POST.getlist('counted')
-    context['text'] = 'Form Sent Successfully'
-
     stock_values = zip(counted, results)
     try:
         latest_stock = Stocktaking.objects.latest('stock_id')
@@ -54,7 +55,8 @@ def stocktaking(request, section):
                                    user=request.user,
                                    stock_id=current_stock)
 
-    return render(request, 'stocktaking/stocktaking.html', context)
+    messages.success(request, 'Stocktaking form sent.')
+    return HttpResponseRedirect(reverse('stocktaking:stocktaking', args=[section]))
 
 
 @login_required()

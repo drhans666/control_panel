@@ -2,9 +2,10 @@ from datetime import date
 import time
 
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.contrib.auth.decorators import login_required, user_passes_test
 
 from .forms import VacationForm, VacQuery, VacVerify
 from .models import Vacation
@@ -19,13 +20,13 @@ def index(request):
 @login_required()
 def vacat_form(request):
     form = VacationForm(request.POST or None)
-    context = {'form': form, 'text': ''}
+    context = {'form': form}
 
     if request.method == 'GET':
         return render(request, 'panel/vacat_form.html', context)
 
     if not form.is_valid():
-        context['text'] = 'Form Error. Try Again'
+        messages.error(request, 'Form error')
         return render(request, 'panel/vacat_form.html', context)
 
     start_date = time.strptime(request.POST.get('start_date'), '%Y-%m-%d')
@@ -34,8 +35,8 @@ def vacat_form(request):
     model.vac_days = count_vac_days(start_date, end_date)
     model.user = request.user
     model.save()
-    context = {'text': 'Vacation submitted successfully'}
-    return render(request, 'panel/index.html', context)
+    messages.success(request, 'Form sent successfully')
+    return HttpResponseRedirect(reverse('panel:vacat_form'))
 
 
 @login_required()
@@ -63,21 +64,23 @@ def vac_query(request):
 def vac_edit(request, vac_id):
     vac_edit_obj = Vacation.objects.get(id=vac_id)
     form = VacVerify(request.POST or None)
-    context = {'form': form, 'vac_edit_obj': vac_edit_obj, 'text': ''}
+    context = {'form': form, 'vac_edit_obj': vac_edit_obj}
 
     if request.method == 'GET':
         return render(request, 'panel/vac_edit.html', context)
 
     if not form.is_valid():
-        context['text'] = 'Form Error'
+        messages.error(request, 'Form error')
         return render(request, 'panel/vac_edit.html', context)
 
     decision = request.POST.get('decision')
     return_dec = apply_dec(vac_edit_obj, decision)
     if return_dec == 'deleted':
         context = {'form': VacQuery()}
+        messages.success(request, 'Vacation request deleted')
         return render(request, 'panel/vac_query.html', context)
 
+    messages.success(request, 'Vacation status changed')
     return HttpResponseRedirect(reverse('panel:vac_edit', args=[vac_id]))
 
 
