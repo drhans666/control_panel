@@ -1,4 +1,5 @@
 from datetime import date
+import time
 
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -8,7 +9,7 @@ from django.core.urlresolvers import reverse
 
 from .forms import VacationForm, VacQuery, VacVerify
 from .models import Vacation
-from .scripts import vac_search, apply_dec
+from .scripts import vac_search, apply_dec, count_vac_days
 
 
 def index(request):
@@ -25,14 +26,13 @@ def vacat_form(request):
         return render(request, 'panel/vacat_form.html', context)
 
     if not form.is_valid():
-        # TODO: move this into the form as a validation method
-        # start_date = request.POST.get('start_date')
-        # end_date = request.POST.get('end_date')
-        # if start_date <= end_date
         messages.error(request, 'Form error')
         return render(request, 'panel/vacat_form.html', context)
 
+    start_date = time.strptime(request.POST.get('start_date'), '%Y-%m-%d')
+    end_date = time.strptime(request.POST.get('end_date'), '%Y-%m-%d')
     model = form.save(commit=False)
+    model.vac_days = count_vac_days(start_date, end_date)
     model.user = request.user
     model.save()
     messages.success(request, 'Form sent successfully')

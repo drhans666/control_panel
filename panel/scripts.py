@@ -1,3 +1,7 @@
+from datetime import timedelta, date
+
+from workalendar.europe import Poland
+
 from .models import Vacation
 
 
@@ -35,3 +39,19 @@ def apply_dec(vac_edit_obj, decision):
         else:
             vac_edit_obj.delete()
             return 'deleted'
+
+
+def count_vac_days(start_date, end_date):
+    start = date(start_date.tm_year, start_date.tm_mon, start_date.tm_mday)
+    end = date(end_date.tm_year, end_date.tm_mon, end_date.tm_mday)
+    free_days = 0
+    delta = end - start
+    for i in range(delta.days + 1):
+        if Poland().is_working_day(start + timedelta(days=i)):
+            free_days = free_days + 1
+    return free_days
+
+
+
+
+
