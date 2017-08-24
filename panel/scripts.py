@@ -47,7 +47,7 @@ def count_vac_days(start_date, end_date):
     free_days = 0
     delta = end - start
     for i in range(delta.days + 1):
-        if Poland().is_working_day(start + timedelta(days=i)) is True:
+        if Poland().is_working_day(start + timedelta(days=i)):
             free_days = free_days + 1
     return free_days
 
