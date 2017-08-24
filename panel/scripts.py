@@ -1,5 +1,4 @@
 from datetime import timedelta, date
-import time
 
 from workalendar.europe import Poland
 
