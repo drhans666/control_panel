@@ -1,23 +1,19 @@
-<!DOCTYPE html>
 {% extends "panel/base.html" %}
-{% block content %}
 {% load bootstrap3 %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>New Announcement</title>
 
-</head>
-<body>
+{% block header %}
+    <h2>Add new announcement</h2>
+{% endblock header %}
+
+{% block content %}
 <div class="col-sm-5">
-<h3>Publish new announcement. </h3>
-<form action="{% url 'announcements:new_anon' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% buttons %}
-    <button name="submit" class="btn btn-primary">Submit</button>
-    {% endbuttons %}
-</form>
+    <form action="{% url 'announcements:new_anon' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        <button name="submit" class="btn btn-primary">Submit</button>
+        {% endbuttons %}
+    </form>
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -26,7 +22,4 @@
     </ul>
     {% endif %}
 </div>
-
-</body>
 {% endblock content %}
-</html>

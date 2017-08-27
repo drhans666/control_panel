@@ -1,14 +1,22 @@
-<!DOCTYPE html>
 {% extends "panel/base.html" %}
-{% block content %}
 {% load bootstrap3 %}
-<html lang="en">
 
+{% block header %}
+    <h2>Search requests</h2>
+{% endblock header %}
+
+{% block content %}
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+  $( function() {
+    $( ".datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+  } );
+  </script>
 </head>
-<body>
 {% if messages %}
 <ul class="messages">
     {% for message in messages %}
@@ -17,53 +25,50 @@
 </ul>
 {% endif %}
 
+<div class="col-sm-7">
+    <h3>Select Filter</h3>
+    <form action="/panel:vac_query/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
 
-<h3>Select Filter</h3>
-<form class="form-inline" action="/panel:vac_query/" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% bootstrap_form form %}
+        {% buttons %}
+        <button name="submit" class="btn btn-primary">Search</button>
+        {% endbuttons %}
+    </form>
+</div>
 
-    {% buttons %}
-    <button name="submit" class="btn btn-primary">Search</button>
-    {% endbuttons %}
-</form>
+<div class="col-sm-10">
+    <h3>Results:</h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>nr</th>
+            <th>user</th>
+            <th>nr of days</th>
+            <th>start date</th>
+            <th>end date</th>
+            <th>request date</th>
+            <th>acceptation</th>
+            <th>action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for found in found_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ found.user }}</td>
+            <td>{{ found.vac_days }}</td>
+            <td>{{ found.start_date }}</td>
+            <td>{{ found.end_date }}</td>
+            <td>{{ found.add_date }}</td>
+            <td>{{ found.accepted }}</td>
+            <td><a href="{% url 'panel:vac_edit' found.id %}">edit</a></td>
+            {% empty %}
+            No search results.
+        </tr>
 
+        {% endfor %}
 
-
-
-<h2>Results:</h2>
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>nr</th>
-        <th>user</th>
-        <th>nr of days</th>
-        <th>start date</th>
-        <th>end date</th>
-        <th>request date</th>
-        <th>acceptation</th>
-        <th>action</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for found in found_list %}
-    <tr>
-        <td>{{ forloop.counter }}</td>
-        <td>{{ found.user }}</td>
-        <td>{{ found.vac_days }}</td>
-        <td>{{ found.start_date }}</td>
-        <td>{{ found.end_date }}</td>
-        <td>{{ found.add_date }}</td>
-        <td>{{ found.accepted }}</td>
-        <td><a href="{% url 'panel:vac_edit' found.id %}">edit</a></td>
-        {% empty %}
-        No search results.
-    </tr>
-
-    {% endfor %}
-
-</table>
-
-</body>
+    </table>
+</div>
 {% endblock content %}
-</html>

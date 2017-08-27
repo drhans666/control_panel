@@ -1,14 +1,11 @@
-<!DOCTYPE html>
 {% extends "panel/base.html" %}
-{% block content %}
 {% load bootstrap3 %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>show items</title>
-</head>
-<body>
-<div class="col-sm-8">
+
+{% block header %}
+    <h2>Advanced search</h2>
+{% endblock header %}
+
+{% block content %}
 <h3>Select Filter</h3>
 <form class="form-inline" action="{% url 'inventory:show_items_adv' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -47,14 +44,7 @@
                 {% empty %}
                 No search results.
             </tr>
-
             {% endfor %}
-
         </table>
     </div>
-</div>
-
-
-</body>
 {% endblock content %}
-</html>

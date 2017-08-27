@@ -1,57 +1,48 @@
-<!DOCTYPE html>
 {% extends "panel/base.html" %}
-{% block content %}
 {% load bootstrap3 %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Stocktaking Form</title>
-</head>
-<body>
-<h3>{{ text }}</h3>
-<form class="form-vertical" action="{% url 'stocktaking:stocktaking' section %}" method="post" enctype="multipart/form-data">
-    <div class="col-sm-5">
-        <h2>Results:</h2>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>nr</th>
-                <th>name</th>
-                <th>manufacturer</th>
 
-            </tr>
-            </thead>
-            <tbody>
-            {% csrf_token %}
-            {% for result in results %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ result.item__name }}</td>
-                <td>{{ result.item__manufacturer__name }}</td>
-                {{ form }}
+{% block header %}
+    <h2>{{ text }}</h2>
+{% endblock header %}
 
-                {% empty %}
-                No items in section.
-            </tr>
-            {% endfor %}
-        </table>
+{% block content %}
+<div class="col-sm-5">
+    <form class="form-vertical" action="{% url 'stocktaking:stocktaking' section %}" method="post" enctype="multipart/form-data">
+            <h3>Results:</h3>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>nr</th>
+                    <th>name</th>
+                    <th>manufacturer</th>
+                    <th>quantity</th>
+                </tr>
+                </thead>
 
-    <br>
-    {% buttons %}
-    <button name="submit" class="btn btn-primary">Submit</button>
-    {% endbuttons %}
-
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li class="{{ message.tags }}">{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
-
-</form>
-
-</body>
+                <tbody>
+                {% csrf_token %}
+                {% for result in results %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ result.item__name }}</td>
+                    <td>{{ result.item__manufacturer__name }}</td>
+                    <td>{{ form.counted }}</td>
+                    {% empty %}
+                    No items in section.
+                </tr>
+                {% endfor %}
+            </table>
+        <br>
+        {% buttons %}
+        <button name="submit" class="btn btn-primary">Submit</button>
+        {% endbuttons %}
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+    </form>
+</div>
 {% endblock content %}
-</html>

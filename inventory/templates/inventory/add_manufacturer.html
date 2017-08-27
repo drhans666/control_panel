@@ -1,15 +1,12 @@
-<!DOCTYPE html>
 {% extends "panel/base.html" %}
-{% block content %}
 {% load bootstrap3 %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add manufacturer</title>
-</head>
-<body>
+
+{% block header %}
+    <h2>Add new manufacturer</h2>
+{% endblock header %}
+
+{% block content %}
 <div class="col-sm-3">
-    <h3>Add new manufacturer</h3>
     <form action="{% url 'inventory:add_manufacturer' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
@@ -25,6 +22,4 @@
     </ul>
     {% endif %}
 </div>
-</body>
 {% endblock content %}
-</html>

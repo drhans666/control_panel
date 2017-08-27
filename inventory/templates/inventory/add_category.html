@@ -1,22 +1,19 @@
-<!DOCTYPE html>
 {% extends "panel/base.html" %}
-{% block content %}
 {% load bootstrap3 %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add category</title>
-</head>
-<body>
+
+{% block header %}
+    <h2>Add new category</h2>
+{% endblock header %}
+
+{% block content %}
 <div class="col-sm-3">
-<h3>Add new category</h3>
-<form action="{% url 'inventory:add_category' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% buttons %}
-    <button name="submit" class="btn btn-primary">Add</button>
-    {% endbuttons %}
-</form>
+    <form action="{% url 'inventory:add_category' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        <button name="submit" class="btn btn-primary">Add</button>
+        {% endbuttons %}
+    </form>
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -25,6 +22,4 @@
     </ul>
     {% endif %}
 </div>
-</body>
 {% endblock content %}
-</html>

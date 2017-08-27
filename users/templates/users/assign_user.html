@@ -1,15 +1,11 @@
-<!DOCTYPE html>
+
 {% extends "panel/base.html" %}
-{% block content %}
 {% load bootstrap3 %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User assignation</title>
-</head>
-<body>
+{% block header %}
+    <h2>Assign user to section</h2>
+{% endblock header %}
+{% block content %}
 <div class="col-sm-3">
-    <h3>Add new category</h3>
     <form action="{% url 'users:assign_user' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
@@ -19,6 +15,4 @@
         {{ text }}
     </form>
 </div>
-</body>
 {% endblock content %}
-</html>

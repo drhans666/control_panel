@@ -1,12 +1,10 @@
-<!DOCTYPE html>
 {% extends "panel/base.html" %}
+
+{% block header %}
+    <h2>Announcements</h2>
+{% endblock header %}
+
 {% block content %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 {% for anon in anon_list %}
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -20,16 +18,13 @@
         {{ anon.text|linebreaks }}
         Author: {{ anon.owner }}
     </div>
-</div> <!-- panel -->
+</div>
 {% empty %}
 No announcements for now.
-
 
   {{ anon.title }}
   {{ anon.text }}
   {{ anon.owner }}
   {{ anon.date_added }}
 {% endfor %}
-</body>
 {% endblock content %}
-</html>
