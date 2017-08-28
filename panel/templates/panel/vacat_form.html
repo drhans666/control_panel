@@ -1,25 +1,32 @@
-<!DOCTYPE html>
 {% extends "panel/base.html" %}
-{% block content %}
 {% load bootstrap3 %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>vacation</title>
 
+{% block header %}
+    <h2>Send vacation request</h2>
+{% endblock header %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+  $( function() {
+    $( ".datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+  } );
+  </script>
 </head>
-<body>
 
 <div class="col-sm-3">
-<h3>Select Your vacation options. </h3>
-<form action="/panel:vacat_form/" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% bootstrap_form form %}
+    <form action="/panel:vacat_form/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
 
-    {% buttons %}
-    <button name="submit" class="btn btn-primary">Submit</button>
-    {% endbuttons %}
-</form>
+        {% buttons %}
+        <button name="submit" class="btn btn-primary">Submit</button>
+        {% endbuttons %}
+    </form>
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -28,6 +35,4 @@
     </ul>
     {% endif %}
 </div>
-</body>
 {% endblock content %}
-</html>

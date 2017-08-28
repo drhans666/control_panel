@@ -2,6 +2,7 @@ from datetime import date
 from django.forms import ModelForm
 from .models import Vacation
 from django import forms
+from django.forms import DateInput
 
 
 class VacationForm(ModelForm):
@@ -15,6 +16,10 @@ class VacationForm(ModelForm):
 
     class Meta:
         model = Vacation
+        widgets = {
+            'start_date': forms.DateInput(attrs={'class':'datepicker'}),
+            'end_date': forms.DateInput(attrs={'class':'datepicker'})
+        }
         fields = '__all__'
         exclude = ['accepted', 'user', 'vac_days']
 
@@ -24,8 +29,10 @@ class VacQuery(forms.Form):
     accepted = forms.ChoiceField(choices=(('all', ("All")),
                                           (False, ("Not Accepted")),
                                           (True, ("Accepted"))))
-    search_from = forms.DateField(initial=date.today())
-    search_to = forms.DateField(initial=date.today())
+    search_from = forms.DateField(initial=date.today(),
+                                  widget=DateInput(attrs={'class': 'datepicker'}))
+    search_to = forms.DateField(initial=date.today(),
+                                widget=DateInput(attrs={'class': 'datepicker'}))
 
 
 class VacVerify(forms.Form):

@@ -1,15 +1,9 @@
-<!DOCTYPE html>
 {% extends "panel/base.html" %}
+
+{% block header %}
+    <h2>Some text</h2>
+{% endblock header %}
+
 {% block content %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Panel Index</title>
-</head>
-<body>
-
-<h2>{{ text }}</h2>
-
-</body>
+<p>{{ text }}</p>
 {% endblock content %}
-</html>

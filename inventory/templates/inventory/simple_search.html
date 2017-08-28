@@ -1,31 +1,29 @@
-<!DOCTYPE html>
 {% extends "panel/base.html" %}
-{% block content %}
 {% load bootstrap3 %}
 {% load auth_extras %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Smartview</title>
-</head>
-<body>
+
+{% block header %}
+    <h2>Search items</h2>
+{% endblock header %}
+
+{% block content %}
 <div class="col-sm-3">
-<h3>Select Filter</h3>
-<form class="form-vertical" action="{% url 'inventory:simple_search' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <br>
-    {% if request.user|has_group:"hi_user" %}
-    <a href="{% url 'inventory:show_items_adv' %}">Advanced search view</a>
-    {% endif %}
-    <br>
-    {% buttons %}
-    <button name="submit" class="btn btn-primary">Search</button>
-    {% endbuttons %}
-</form>
+    <h3>Select Filter</h3>
+    <form class="form-vertical" action="{% url 'inventory:simple_search' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <br>
+        {% if request.user|has_group:"hi_user" %}
+        <a href="{% url 'inventory:show_items_adv' %}">Advanced search view</a>
+        {% endif %}
+        <br>
+        {% buttons %}
+        <button name="submit" class="btn btn-primary">Search</button>
+        {% endbuttons %}
+    </form>
 </div>
 <div class="col-sm-5">
-    <h2>Results:</h2>
+    <h3>Results</h3>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -45,12 +43,7 @@
             {% empty %}
             No search results.
         </tr>
-
         {% endfor %}
-
     </table>
 </div>
-</div>
-</body>
 {% endblock content %}
-</html>

@@ -2,14 +2,17 @@
 {% load bootstrap3 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
+{% load static %}
 {% load auth_extras %}
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{% static 'css/something.css' %}">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
   <title>Control Panel</title>
 </head>
 <body>
@@ -74,8 +77,12 @@
   </div>
 </nav>
 
-
-{% block content %}{% endblock content %}
+<div class="container">
+  <div class="page-header">
+    {% block header %}{% endblock header %}
+  </div>
+    {% block content %}{% endblock content %}
+</div>
 </body>
 </html>
 

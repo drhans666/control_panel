@@ -1,29 +1,28 @@
-<!DOCTYPE html>
 {% extends "panel/base.html" %}
-{% block content %}
 {% load bootstrap3 %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<div class="col-sm-3">
-<h3>Add new item</h3>
-<form action="{% url 'inventory:new_item' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <h4>Item name:</h4>
-    {{ form.name }}
-    <h4>Category:</h4>
-    {{ form.category }}
-    <a href="{% url 'inventory:add_category'%}">add category</a>
-    <h4>Manufacturer:</h4>
-    {{ form.manufacturer }}
-    <a href="{% url 'inventory:add_manufacturer'%}">add manufacturer</a>
-    {% buttons %}
-    <button name="submit" class="btn btn-primary">Add new item</button>
-    {% endbuttons %}
-</form>
+
+{% block header %}
+    <h2>Add new item</h2>
+{% endblock header %}
+
+{% block content %}
+<div class="col-sm-4">
+    <form action="{% url 'inventory:new_item' %}" method="post" enctype="multipart/form-data">
+        <div class="form_class">
+            {% csrf_token %}
+            <p>Item name:</p>
+            {{ form.name }}
+            <p>Category:</p>
+            {{ form.category }}
+            <a href="{% url 'inventory:add_category'%}">add category</a>
+            <p>Manufacturer:</p>
+            {{ form.manufacturer }}
+            <a href="{% url 'inventory:add_manufacturer'%}">add manufacturer</a>
+            {% buttons %}
+            <button name="submit" class="btn btn-primary">Add new item</button>
+            {% endbuttons %}
+        </div>
+    </form>
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -32,6 +31,4 @@
     </ul>
     {% endif %}
 </div>
-</body>
 {% endblock content %}
-</html>
