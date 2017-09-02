@@ -6,17 +6,28 @@
 {% endblock header %}
 
 {% block content %}
-<div class="col-sm-4">
-    <h4>Added: {{ vac_edit_obj.add_date }}</h4>
-    <h4>User: {{ vac_edit_obj.user }}</h4>
-    <h4>Start: {{ vac_edit_obj.start_date }}</h4>
-    <h4>End: {{ vac_edit_obj.end_date }}</h4>
-    <h4>Number of days: {{ vac_edit_obj.vac_days }}</h4>
-    <h4>Acceptation: {{ vac_edit_obj.accepted }}</h4>
-
+<div class="row">
+    <div class="col-sm-4">
+        <h4><small>Added: </small>{{ vac_edit_obj.add_date }}</h4>
+        <h4><small>User: </small>{{ vac_edit_obj.user }}</h4>
+        <h4><small>Start: </small>{{ vac_edit_obj.start_date }}</h4>
+        <h4><small>End: </small>{{ vac_edit_obj.end_date }}</h4>
+        <h4><small>Number of days: </small>{{ vac_edit_obj.vac_days }}</h4>
+        <h4><small>Acceptation: </small>{{ vac_edit_obj.accepted }}</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3">
     <form action="{% url 'panel:vac_edit' vac_edit_obj.id %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {% bootstrap_form form %}
+        <div class="form-group">
+            <label>Choose action:</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-question-sign"></i></span>
+                {% bootstrap_field form.decision %}
+            </div>
+        </div>
+
         {% buttons %}
         <button name="submit" class="btn btn-primary">Submit</button>
         {% endbuttons %}
@@ -28,5 +39,6 @@
             {% endfor %}
         </ul>
         {% endif %}
+    </div>
 </div>
 {% endblock content %}

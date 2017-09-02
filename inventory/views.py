@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
+from .models import Item
 from .forms import ItemForm, ItemLocationForm, QueryForm, ManufacturerForm,\
     CategoryForm, SectionForm, SimpleSearch
 from .scripts import search_items, check_category_section, simple_item_search
@@ -14,7 +15,8 @@ from .scripts import search_items, check_category_section, simple_item_search
                   login_url='/users/access_denied.html')
 def add_to_section(request):
     form = ItemLocationForm(request.POST or None)
-    context = {'form': form, 'text': ''}
+    items = Item.objects.all()
+    context = {'form': form, 'items': items}
 
     if not form.is_valid():
         return render(request, 'inventory/add_to_section.html', context)
@@ -41,7 +43,7 @@ def new_item(request):
         return render(request, 'inventory/new_item.html', context)
 
     form.save()
-    messages.success(request, '%s added to section.' % request.POST.get('name').capitalize())
+    messages.success(request, 'New item: %s added.' % request.POST.get('name').capitalize())
     return HttpResponseRedirect(reverse('inventory:new_item'))
 
 

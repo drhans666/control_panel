@@ -6,5 +6,6 @@ class AnonForm(forms.ModelForm):
     class Meta:
         model = Anon
         fields = ['title', 'text']
-        labels = {'text': ''}
+        labels = {'text': '',
+                  'title': ''}
         widgets = {'text': forms.Textarea(attrs={'cols': 80})}

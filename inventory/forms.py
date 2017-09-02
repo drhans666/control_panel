@@ -15,6 +15,9 @@ class ItemForm(forms.ModelForm):
         model = Item
         exclude = ('section',)
         fields = '__all__'
+        labels = {'name': '',
+                  'category': '',
+                  'manufacturer': ''}
 
 
 class ItemLocationForm(forms.ModelForm):
@@ -22,6 +25,9 @@ class ItemLocationForm(forms.ModelForm):
     class Meta:
         model = ItemLocation
         fields = ['item', 'quantity', 'section']
+        labels = {'item': '',
+                  'quantity': '',
+                  'section': ''}
 
 
 class CategoryForm(forms.ModelForm):

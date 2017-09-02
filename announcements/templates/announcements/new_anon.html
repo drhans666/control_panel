@@ -6,20 +6,32 @@
 {% endblock header %}
 
 {% block content %}
-<div class="col-sm-5">
-    <form action="{% url 'announcements:new_anon' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        {% buttons %}
-        <button name="submit" class="btn btn-primary">Submit</button>
-        {% endbuttons %}
-    </form>
+<div class="row">
+    <div class="col-sm-5">
+        <form action="{% url 'announcements:new_anon' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Title:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span>
+                    {% bootstrap_field form.title %}
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Announcement:</label>
+                {% bootstrap_field form.text %}
+            </div>
+            {% buttons %}
+            <button name="submit" class="btn btn-primary">Submit</button>
+            {% endbuttons %}
+        </form>
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
         <li class="{{ message.tags }}">{{ message }}</li>
         {% endfor %}
     </ul>
-    {% endif %}
+    </div>
 </div>
+    {% endif %}
 {% endblock content %}
