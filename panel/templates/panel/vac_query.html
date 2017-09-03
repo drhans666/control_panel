@@ -91,11 +91,12 @@
                 <td>{{ found.accepted }}</td>
                 <td><a href="{% url 'panel:vac_edit' found.id %}">edit</a></td>
             </tr>
+            {% empty %}
+            No search results.
+            {% endfor %}
             </tbody>
         </table>
-        {% empty %}
-        No search results.
-        {% endfor %}
+
 
 
     </div>

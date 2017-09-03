@@ -41,6 +41,7 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = '__all__'
+        labels = {'name':''}
 
 
 class ManufacturerForm(forms.ModelForm):
@@ -54,6 +55,7 @@ class ManufacturerForm(forms.ModelForm):
     class Meta:
         model = Manufacturer
         fields = '__all__'
+        labels = {'name':''}
 
 
 class SectionForm(forms.ModelForm):
@@ -67,24 +69,25 @@ class SectionForm(forms.ModelForm):
     class Meta:
         model = Section
         fields = '__all__'
+        labels = {'name':''}
 
 
 class QueryForm(forms.Form):
 
-    item = forms.CharField(max_length=40, initial='all')
-    manufacturer = forms.CharField(max_length=40, initial='all')
+    item = forms.CharField(max_length=40, initial='all', label=False)
+    manufacturer = forms.CharField(max_length=40, initial='all', label=False)
     category = forms.ModelMultipleChoiceField(queryset=Category.objects.all(),
                                               widget=forms.CheckboxSelectMultiple,
-                                              label="category(optional)",
+                                              label=False,
                                               required=False)
     section = forms.ModelMultipleChoiceField(queryset=Section.objects.all(),
                                              widget=forms.CheckboxSelectMultiple,
-                                             label="section(optional)",
+                                             label=False,
                                              required=False)
 
 
 class SimpleSearch(forms.Form):
 
-    item = forms.CharField(max_length=40, initial='all')
-    manufacturer = forms.CharField(max_length=40, initial='all')
-    section = forms.ModelChoiceField(queryset=Section.objects.all(), label="section")
+    item = forms.CharField(max_length=40, initial='all', label='')
+    manufacturer = forms.CharField(max_length=40, initial='all', label='')
+    section = forms.ModelChoiceField(queryset=Section.objects.all(), label="")

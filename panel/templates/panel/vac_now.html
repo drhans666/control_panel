@@ -5,25 +5,27 @@
 {% endblock header %}
 
 {% block content %}
-<div class="col-sm-5">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>user</th>
-            <th>return in</th>
-            <th>return date</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for query, days in lists %}
-        <tr>
-            <td>{{ query.user }}</td>
-            <td>{{ days }}</td>
-            <td>{{ query.end_date }}</td>
-            {% empty %}
-            Currently no one is on vacation.
-            {% endfor %}
-        </tr>
-    </table>
+<div class="row">
+    <div class="col-sm-5">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>user</th>
+                <th>return in</th>
+                <th>return date</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for query, days in lists %}
+            <tr>
+                <td>{{ query.user }}</td>
+                <td>{{ days }}</td>
+                <td>{{ query.end_date }}</td>
+                {% empty %}
+                Currently no one is on vacation.
+                {% endfor %}
+            </tr>
+        </table>
+    </div>
 </div>
 {% endblock content %}

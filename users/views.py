@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .forms import EmployeeForm
+from .forms import EmployeeForm, CustomUserForm
 
 
 def logout_view(request):
@@ -16,16 +16,20 @@ def logout_view(request):
 @user_passes_test(lambda u: u.groups.filter(name='low_user').count() == 0,
                   login_url='/users/access_denied.html')
 def register(request):
-    form = UserCreationForm(request.POST or None)
+    form = CustomUserForm(request.POST or None)
     context = {'form': form}
 
-    if request.method == 'GET' or not form.is_valid():
+    if request.method == 'GET':
         return render(request, 'users/register.html', context)
+
+    if not form.is_valid():
+        messages.error(request, 'Password confirmation failed.')
+        return HttpResponseRedirect(reverse('users:register'))
 
     model = form.save()
     model.groups.set([1])
-    context['text'] = 'User added successfully'
-    return render(request, 'panel/index.html', context)
+    messages.success(request, 'User added successfully.')
+    return HttpResponseRedirect(reverse('users:register'))
 
 
 def access_denied(request):

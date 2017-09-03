@@ -1,14 +1,52 @@
 <!DOCTYPE html>
 {% extends "panel/base.html" %}
 {% block header %}
-    <h2>Register new user</h2>
+<h2>Register new user</h2>
 {% endblock header %}
 {% block content %}
-<form method="post" action="{% url 'users:register' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-
-    <button name="submit">register</button>
-    <input type="hidden" name="next" value="{% url 'panel:index' %}" />
-</form>
+<div class="row">
+    <div class="col-sm-7">
+        <form method="post" action="{% url 'users:register' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Username:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    {{ form.username }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Password:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    {{ form.password1 }}
+                </div>
+            </div>
+            <ul>
+                <li>Your password can't be too similar to your other personal information.</li>
+                <li>Your password must contain at least 8 characters.</li>
+                <li>Your password can't be a commonly used password.</li>
+                <li>Your password can't be entirely numeric.</li>
+            </ul>
+            <div class="form-group">
+                <label>Confirm password:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    {{ form.password2 }}
+                </div>
+            </div>
+            <button name="submit" class="btn btn-primary">register</button>
+            <input type="hidden"  name="next" value="{% url 'panel:index' %}" />
+        </form>
+    </div>
+</div>
+<div class="row">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
 {% endblock content %}
