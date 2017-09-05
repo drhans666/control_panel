@@ -18,16 +18,42 @@
     </script>
 </head>
 
-
-<div class="col-sm-3">
-    <form action="{% url 'stocktaking:browse_stocktakings' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-group">
-            {% bootstrap_form form %}
-        </div>
-        {% buttons %}
-        <button name="submit" class="btn btn-primary">Search</button>
-        {% endbuttons %}
-    </form>
+<div class="row">
+    <div class="col-sm-3">
+        <form action="{% url 'stocktaking:browse_stocktakings' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Search from:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    {% bootstrap_field form.search_from %}
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Search to:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    {% bootstrap_field form.search_to %}
+                </div>
+            </div>
+            <div class="form-group">
+                <label>User:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    {% bootstrap_field form.user %}
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Section:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-equalizer"></i></span>
+                    {% bootstrap_field form.section %}
+                </div>
+            </div>
+            {% buttons %}
+            <button name="submit" class="btn btn-primary">Search</button>
+            {% endbuttons %}
+        </form>
+    </div>
 </div>
 {% endblock content %}

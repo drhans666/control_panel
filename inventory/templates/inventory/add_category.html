@@ -6,20 +6,28 @@
 {% endblock header %}
 
 {% block content %}
-<div class="col-sm-3">
-    <form action="{% url 'inventory:add_category' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        {% buttons %}
-        <button name="submit" class="btn btn-primary">Add</button>
-        {% endbuttons %}
-    </form>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+<div class="row">
+    <div class="col-sm-3">
+        <form action="{% url 'inventory:add_category' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>New category:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-folder-open"></i></span>
+                    {% bootstrap_field form.name %}
+                </div>
+            </div>
+            {% buttons %}
+            <button name="submit" class="btn btn-primary">Add</button>
+            {% endbuttons %}
+        </form>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
 </div>
 {% endblock content %}

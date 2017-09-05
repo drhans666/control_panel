@@ -25,17 +25,17 @@ class VacationForm(ModelForm):
 
 
 class VacQuery(forms.Form):
-    query_user = forms.CharField(required=False, max_length=30)
-    accepted = forms.ChoiceField(choices=(('all', ("All")),
+    query_user = forms.CharField(label=False, required=False, max_length=30)
+    accepted = forms.ChoiceField(label=False, choices=(('All', ("All")),
                                           (False, ("Not Accepted")),
                                           (True, ("Accepted"))))
-    search_from = forms.DateField(initial=date.today(),
+    search_from = forms.DateField(label=False, initial=date.today(),
                                   widget=DateInput(attrs={'class': 'datepicker'}))
-    search_to = forms.DateField(initial=date.today(),
+    search_to = forms.DateField(label=False, initial=date.today(),
                                 widget=DateInput(attrs={'class': 'datepicker'}))
 
 
 class VacVerify(forms.Form):
-    decision = forms.ChoiceField(choices=((True, ("Accept")),
+    decision = forms.ChoiceField(label=False, choices=((True, ("Accept")),
                                           (False, ("Refuse")),
                                           ('delete', ("Delete"))))

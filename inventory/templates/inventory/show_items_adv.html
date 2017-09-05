@@ -9,13 +9,52 @@
 <h3>Select Filter</h3>
 <form class="form-inline" action="{% url 'inventory:show_items_adv' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {% bootstrap_form form %}
-    <br>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="form-group">
+                <label>Item:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-equalizer"></i></span>
+                    {% bootstrap_field form.item %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                <label>Manufacturer:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-equalizer"></i></span>
+                    {% bootstrap_field form.manufacturer %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Categories:</label>
+                <div class="input-group">
+                    {% bootstrap_field form.category %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Sections:</label>
+                <div class="input-group">
+                    {% bootstrap_field form.section %}
+                </div>
+            </div>
+        </div>
+    </div>
     {% buttons %}
     <button name="submit" class="btn btn-primary">Search</button>
     {% endbuttons %}
 </form>
-    <div>
+<div class="row">
+    <div class="col-sm-12">
         <h2>Results:</h2>
         <table class="table table-striped">
             <thead>
@@ -47,4 +86,5 @@
             {% endfor %}
         </table>
     </div>
+</div>
 {% endblock content %}

@@ -6,29 +6,57 @@
 {% endblock header %}
 
 {% block content %}
-<div class="col-sm-4">
-    <form action="{% url 'inventory:new_item' %}" method="post" enctype="multipart/form-data">
-        <div class="form_class">
-            {% csrf_token %}
-            <p>Item name:</p>
-            {{ form.name }}
-            <p>Category:</p>
-            {{ form.category }}
-            <a href="{% url 'inventory:add_category'%}">add category</a>
-            <p>Manufacturer:</p>
-            {{ form.manufacturer }}
-            <a href="{% url 'inventory:add_manufacturer'%}">add manufacturer</a>
-            {% buttons %}
-            <button name="submit" class="btn btn-primary">Add new item</button>
-            {% endbuttons %}
+
+<form action="{% url 'inventory:new_item' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Item name:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-glass"></i></span>
+                    {% bootstrap_field form.name %}
+                </div>
+            </div>
         </div>
-    </form>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Category:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-folder-open"></i></span>
+                    {% bootstrap_field form.category %}
+                </div>
+                <a href="{% url 'inventory:add_category'%}">add category</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Manufacturer:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-wrench"></i></span>
+                        {% bootstrap_field form.manufacturer %}
+                    </div>
+                    <a href="{% url 'inventory:add_manufacturer'%}">add manufacturer</a>
+                </div>
+
+        </div>
+    </div>
+        {% buttons %}
+        <button name="submit" class="btn btn-primary">Add new item</button>
+        {% endbuttons %}
+
+</form>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 {% endblock content %}

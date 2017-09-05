@@ -18,15 +18,28 @@
   </script>
 </head>
 
-<div class="col-sm-3">
-    <form action="/panel:vacat_form/" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-
-        {% buttons %}
-        <button name="submit" class="btn btn-primary">Submit</button>
-        {% endbuttons %}
-    </form>
+<div class="row">
+    <div class="col-sm-3">
+        <form action="/panel:vacat_form/" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="start_date">Start date:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    <input type="date" class="form-control datepicker" id="start_date" name="start_date">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="end_date">End date:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    <input type="date" class="form-control datepicker" id="end_date" name="end_date">
+                </div>
+            </div>
+            {% buttons %}
+            <button name="submit" class="btn btn-primary">Submit</button>
+            {% endbuttons %}
+        </form>
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -34,5 +47,6 @@
         {% endfor %}
     </ul>
     {% endif %}
+    </div>
 </div>
 {% endblock content %}
