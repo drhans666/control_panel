@@ -4,10 +4,13 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
+from rest_framework import viewsets
+
 from .models import Item
 from .forms import ItemForm, ItemLocationForm, QueryForm, ManufacturerForm,\
     CategoryForm, SectionForm, SimpleSearch
 from .scripts import search_items, check_category_section, simple_item_search
+from .serializers import ItemSerializer
 
 
 @login_required()
@@ -137,3 +140,8 @@ def new_section(request):
     form.save()
     messages.success(request, '%s section added' % request.POST.get('name').capitalize())
     return HttpResponseRedirect(reverse('inventory:new_section'))
+
+
+class ItemViewSet(viewsets.ModelViewSet):
+    queryset = Item.objects.all().order_by('name')
+    serializer_class = ItemSerializer
