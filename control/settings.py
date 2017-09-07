@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # third party apps
     'bootstrap3',
     'django_extensions',
+    'jquery',
     'rest_framework',
 ]
 

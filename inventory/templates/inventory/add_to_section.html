@@ -11,9 +11,60 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
     <script type="text/javascript">
-    $(document).ready(function() {
-    $("#item").select2();
-    });
+    function formatItem (item) {
+        if (item.loading) return item.text;
+
+        var markup = '<div class="clearfix">' +
+        '<div class="col-sm-1">' +
+        '<div clas="col-sm-10">' +
+        '<div class="clearfix">' +
+        '<div class="col-sm-6">' + item.name + '</div>' +
+        '</div>';
+
+        markup += '</div></div>';
+
+        return markup;
+      }
+
+      function formatItemSelection (item) {
+        return item.name || item.text;
+      }
+
+
+    $(document).ready(function () {
+        $("#item_select").select2({
+            tokenSeparators: [',', ' '],
+            minimumInputLength: 1,
+            minimumResultsForSearch: 5,
+            ajax: {
+                url: '/rest/items/',
+                dataType: "json",
+                type: "GET",
+                data: function (params) {
+
+                    var queryParameters = {
+                        search: params.term
+                    }
+                    return queryParameters;
+                },
+                processResults: function (data, params) {
+                      params.page = params.page || 1;
+
+                      return {
+                        results: data.items,
+                        pagination: {
+                          more: (params.page * 30) < data.total_count
+                        }
+                      };
+                    },
+                    cache: true
+                  },
+                  escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+                  minimumInputLength: 1,
+                  templateResult: formatItem,
+                  templateSelection: formatItemSelection
+                });
+                });
     </script>
 </head>
 
@@ -25,10 +76,8 @@
                 <label>Item name:</label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-glass"></i></span>
-                    <select class="form-control" id="item" name="item">
-                        {% for item in items %}
-                        <option value="{{ item.id }}">{{ item }}</option>
-                        {% endfor %}
+                    <select class="form-control" id="item_select">
+                        <option class="map" value="3620194" selected="selected">Choose Item</option>
                     </select>
                 </div>
             </div>

@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 from rest_framework import viewsets
+from rest_framework.filters import SearchFilter
 
 from .models import Item
 from .forms import ItemForm, ItemLocationForm, QueryForm, ManufacturerForm,\
@@ -145,3 +146,6 @@ def new_section(request):
 class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all().order_by('name')
     serializer_class = ItemSerializer
+    filter_backends = (SearchFilter,)
+    search_fields = ('name',)
+
