@@ -4,14 +4,11 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-from rest_framework import viewsets
-from rest_framework.filters import SearchFilter
 
-from .models import Item
 from .forms import ItemForm, ItemLocationForm, QueryForm, ManufacturerForm,\
     CategoryForm, SectionForm, SimpleSearch
 from .scripts import search_items, check_category_section, simple_item_search
-from .serializers import ItemSerializer
+
 
 
 @login_required()
@@ -19,8 +16,7 @@ from .serializers import ItemSerializer
                   login_url='/users/access_denied.html')
 def add_to_section(request):
     form = ItemLocationForm(request.POST or None)
-    items = Item.objects.all()
-    context = {'form': form, 'items': items}
+    context = {'form': form}
 
     if not form.is_valid():
         return render(request, 'inventory/add_to_section.html', context)
@@ -143,9 +139,5 @@ def new_section(request):
     return HttpResponseRedirect(reverse('inventory:new_section'))
 
 
-class ItemViewSet(viewsets.ModelViewSet):
-    queryset = Item.objects.all().order_by('name')
-    serializer_class = ItemSerializer
-    filter_backends = (SearchFilter,)
-    search_fields = ('name',)
+
 

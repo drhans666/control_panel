@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'announcements',
     'inventory',
     'stocktaking',
+    'restapi',
     # third party apps
     'bootstrap3',
     'django_extensions',
