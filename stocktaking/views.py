@@ -8,7 +8,6 @@ from django.core.urlresolvers import reverse
 
 
 from .models import Stocktaking, Item, Section
-from users.models import Employee
 from .forms import StocktakingForm, BrowseStockForm
 from .scripts import stocktaking_items
 
@@ -24,7 +23,8 @@ def stock_section(request):
             section_ids.append(i.get('id'))
             section_names.append(i.get('name'))
     except ObjectDoesNotExist:
-        '''!!!!!!! exception to make !!!!!!!'''
+        messages.error(request, 'You are not assigned to any section')
+        return HttpResponseRedirect(reverse('users:access_denied'))
     else:
         sections = zip(section_ids, section_names)
         context = {'sections': sections}

@@ -1,12 +1,13 @@
-from django.shortcuts import render
 from django.contrib.auth.models import User
 
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter
 
 from inventory.models import Item, Category, Manufacturer, Section
 from .serializers import ItemSerializer, CategorySerializer, ManufacturerSerializer,\
     SectionSerializer, UserSerializer
+from .permissions import GroupPermission
 
 
 class ItemViewSet(viewsets.ModelViewSet):
@@ -14,6 +15,7 @@ class ItemViewSet(viewsets.ModelViewSet):
     serializer_class = ItemSerializer
     filter_backends = (SearchFilter,)
     search_fields = ('name',)
+    permission_classes = (IsAuthenticated, GroupPermission)
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -21,6 +23,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     filter_backends = (SearchFilter,)
     search_fields = ('name',)
+    permission_classes = (IsAuthenticated, GroupPermission)
 
 
 class ManufacturerViewSet(viewsets.ModelViewSet):
@@ -28,6 +31,7 @@ class ManufacturerViewSet(viewsets.ModelViewSet):
     serializer_class = ManufacturerSerializer
     filter_backends = (SearchFilter,)
     search_fields = ('name',)
+    permission_classes = (IsAuthenticated, GroupPermission)
 
 
 class SectionViewSet(viewsets.ModelViewSet):
@@ -35,6 +39,7 @@ class SectionViewSet(viewsets.ModelViewSet):
     serializer_class = SectionSerializer
     filter_backends = (SearchFilter,)
     search_fields = ('name',)
+    permission_classes = (IsAuthenticated, GroupPermission)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -42,3 +47,4 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     filter_backends = (SearchFilter,)
     search_fields = ('username',)
+    permission_classes = (IsAuthenticated, GroupPermission)
