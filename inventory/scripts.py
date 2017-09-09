@@ -48,19 +48,19 @@ def simple_item_search(item, manufacturer, section):
 
     # query when specified item, all manufacturers
     if item != 'ALL' and manufacturer == 'ALL':
-        matches = ItemLocation.objects.filter(item__name__contains=item, section__in=section)\
+        matches = ItemLocation.objects.filter(item=item, section__in=section)\
             .order_by('item__name', 'item__manufacturer__name')
 
     # query when specified manufacturer, all items
     if item == 'ALL' and manufacturer != 'ALL':
-        matches = ItemLocation.objects.filter(item__manufacturer__name__contains=manufacturer,
+        matches = ItemLocation.objects.filter(item__manufacturer=manufacturer,
                                               section__in=section)\
             .order_by('item__name', 'item__manufacturer__name')
 
     # query when specified manufacturer and items
     if item != 'ALL' and manufacturer != 'ALL':
-        matches = ItemLocation.objects.filter(item__name__contains=item,
-                                              item__manufacturer__name__contains=manufacturer,
+        matches = ItemLocation.objects.filter(item=item,
+                                              item__manufacturer=manufacturer,
                                               section__in=section)\
             .order_by('item__name', 'item__manufacturer__name')
 
@@ -86,7 +86,7 @@ def search_items(item, manufacturer, cat, sect):
 
     # query when specified item, all manufacturers
     if item != 'ALL' and manufacturer == 'ALL':
-        matches = ItemLocation.objects.filter(item__name__contains=item, section__in=sect,
+        matches = ItemLocation.objects.filter(item=item, section__in=sect,
                                               item__category__id__in=cat).order_by('section__name',
                                                                                    'item__name').distinct()
 
@@ -94,7 +94,7 @@ def search_items(item, manufacturer, cat, sect):
 
     # query when specified manufacturer, all items
     if item == 'ALL' and manufacturer != 'ALL':
-        matches = ItemLocation.objects.filter(item__manufacturer__name__contains=manufacturer,
+        matches = ItemLocation.objects.filter(item__manufacturer=manufacturer,
                                               section__in=sect,
                                               item__category__id__in=cat).order_by('section__name',
                                                                                    'item__name').distinct()
@@ -103,8 +103,8 @@ def search_items(item, manufacturer, cat, sect):
 
     # query when specified manufacturer and items
     if item != 'ALL' and manufacturer != 'ALL':
-        matches = ItemLocation.objects.filter(item__name__contains=item,
-                                              item__manufacturer__name__contains=manufacturer,
+        matches = ItemLocation.objects.filter(item=item,
+                                              item__manufacturer=manufacturer,
                                               section__in=sect,
                                               item__category__id__in=cat).order_by('section__name',
                                                                                    'item__name').distinct()

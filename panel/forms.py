@@ -7,6 +7,10 @@ from django.forms import DateInput
 
 class VacationForm(ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super(VacationForm, self).__init__(*args, **kwargs)
+        self.fields['start_date'].value = date.today()
+
     def clean(self):
         cleaned_data = super(VacationForm, self).clean()
         start_date = cleaned_data.get('start_date')

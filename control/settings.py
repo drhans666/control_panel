@@ -31,10 +31,20 @@ INSTALLED_APPS = [
     'announcements',
     'inventory',
     'stocktaking',
+    'restapi',
     # third party apps
     'bootstrap3',
     'django_extensions',
+    'jquery',
+    'rest_framework',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'PAGE_SIZE': 10
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,7 +61,7 @@ ROOT_URLCONF = 'control.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "control/templates/control/")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

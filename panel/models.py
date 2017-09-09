@@ -9,7 +9,7 @@ class Vacation(models.Model):
     user = models.ForeignKey(User, default=1)
     start_date = models.DateField(default=date.today)
     end_date = models.DateField(default=date.today)
-    vac_days = models.IntegerField(verbose_name='Vacation days to use:', default=0,
+    vac_days = models.IntegerField(default=0,
                                    validators=[MinValueValidator(1)])
     accepted = models.BooleanField(default=False)
 

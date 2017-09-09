@@ -1,4 +1,4 @@
-{% extends "panel/base.html" %}
+{% extends "base.html" %}
 {% load bootstrap3 %}
 
 {% block header %}
@@ -21,6 +21,7 @@
             <button name="submit" class="btn btn-primary">Add</button>
             {% endbuttons %}
         </form>
+        <a href="{% url 'inventory:add_to_section'%}">back</a>
         {% if messages %}
         <ul class="messages">
             {% for message in messages %}

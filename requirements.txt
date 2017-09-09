@@ -3,3 +3,6 @@ django-extensions
 django-bootstrap3
 psycopg2
 workalendar
+jquery
+djangorestframework
+

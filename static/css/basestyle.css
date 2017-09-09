@@ -1,0 +1,23 @@
+
+.page-header {
+    background-color:  #eaf2f8;
+    margin-top: 0;
+}
+
+.form_class p {
+    font-weight: bold
+}
+
+body {
+    font-family: 'Merriweather';
+}
+
+.panel-default {
+    background-color:     #ecf0f1;
+}
+
+.input-group-addon {
+    background-color:     #2980b9;
+    color:     #fdfefe;
+;
+}

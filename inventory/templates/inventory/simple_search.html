@@ -1,12 +1,29 @@
-{% extends "panel/base.html" %}
+{% extends "base.html" %}
 {% load bootstrap3 %}
 {% load auth_extras %}
+{% load static %}
 
 {% block header %}
     <h2>Search items</h2>
 {% endblock header %}
 
 {% block content %}
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script type="text/javascript">
+    $.getScript( "{% static 'js/item_select.js' %}", function() {
+    });
+    </script>
+    <script type="text/javascript">
+    $.getScript( "{% static 'js/section_select.js' %}", function() {
+    });
+    </script>
+    <script type="text/javascript">
+    $.getScript( "{% static 'js/manufacturer_select.js' %}", function() {
+    });
+    </script>
+</head>
 <div class="row">
     <div class="col-sm-3">
         <h3>Select Filter</h3>
@@ -16,21 +33,25 @@
                 <label>Item name:</label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-glass"></i></span>
-                    {% bootstrap_field form.item %}
+                    <select class="form-control" id="item_select" name="item">
+                        <option>all</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
                 <label>Manufacturer:</label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-wrench"></i></span>
-                    {% bootstrap_field form.manufacturer %}
+                    <select class="form-control" id="manufacturer_select" name="manufacturer">
+                        <option>all</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
-                <label>Section:</label>
+                <label>Section(required):</label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-equalizer"></i></span>
-                    {% bootstrap_field form.section %}
+                    <select class="form-control" id="section_select" name="section"></select>
                 </div>
                 {% if request.user|has_group:"hi_user" %}
                 <a href="{% url 'inventory:show_items_adv' %}">Advanced search view</a>

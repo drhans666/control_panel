@@ -56,8 +56,8 @@ class Section(models.Model):
 
 class Item(models.Model):
     name = UpperCaseCharField(default='', max_length=40)
-    category = models.ManyToManyField(Category)
-    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
+    category = models.ManyToManyField(Category, related_name='category')
+    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, related_name='manufacturer')
     section = models.ManyToManyField(Section, through=ItemLocation)
 
     def __str__(self):

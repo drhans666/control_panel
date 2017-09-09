@@ -18,12 +18,17 @@ def stock_section(request):
     section_names = []
     user = request.user
     u = User.objects.get(username=user.username)
-    for i in u.employee.section.all().values('id', 'name'):
-        section_ids.append(i.get('id'))
-        section_names.append(i.get('name'))
-    sections = zip(section_ids, section_names)
-    context = {'sections': sections}
-    return render(request, 'stocktaking/stock_section.html', context)
+    try:
+        for i in u.employee.section.all().values('id', 'name'):
+            section_ids.append(i.get('id'))
+            section_names.append(i.get('name'))
+    except ObjectDoesNotExist:
+        messages.error(request, 'You are not assigned to any section')
+        return HttpResponseRedirect(reverse('users:access_denied'))
+    else:
+        sections = zip(section_ids, section_names)
+        context = {'sections': sections}
+        return render(request, 'stocktaking/stock_section.html', context)
 
 
 @login_required()

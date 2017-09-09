@@ -1,5 +1,6 @@
-{% extends "panel/base.html" %}
+{% extends "base.html" %}
 {% load bootstrap3 %}
+{% load static %}
 
 {% block header %}
     <h2>Assign to section</h2>
@@ -9,10 +10,12 @@
 <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-
     <script type="text/javascript">
-    $(document).ready(function() {
-    $("#item").select2();
+    $.getScript( "{% static 'js/item_select.js' %}", function() {
+    });
+    </script>
+    <script type="text/javascript">
+    $.getScript( "{% static 'js/section_select.js' %}", function() {
     });
     </script>
 </head>
@@ -25,20 +28,16 @@
                 <label>Item name:</label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-glass"></i></span>
-                    <select class="form-control" id="item" name="item">
-                        {% for item in items %}
-                        <option value="{{ item.id }}">{{ item }}</option>
-                        {% endfor %}
-                    </select>
+                    <select class="form-control" id="item_select" name="item"></select>
                 </div>
             </div>
         </div>
-                <div class="col-sm-1">
-                    <div class="form-group">
-                        <label>Quantity:</label>
-                    {% bootstrap_field form.quantity %}
-                    </div>
-                </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                <label>Quantity:</label>
+            {% bootstrap_field form.quantity %}
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-sm-4">
@@ -46,12 +45,12 @@
                 <label>Section:</label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-equalizer"></i></span>
-                    {% bootstrap_field form.section %}
+                    <select class="form-control" id="section_select" name="section"></select>
                 </div>
                 <a href="{% url 'inventory:new_section'%}">add section</a>
             </div>
             {% buttons %}
-            <button name="submit" class="btn btn-primary">Allocate</button>
+            <button name="submit" class="btn btn-primary">Assign</button>
             {% endbuttons %}
         </div>
     </div>
