@@ -53,6 +53,13 @@ def count_vac_days(start_date, end_date):
     return free_days
 
 
+def vacnow_search_append():
+    found = Vacation.objects.filter(accepted=True, end_date__gte=date.today()).order_by('end_date')
+    days_list = []
+    for f in found:
+        days = f.end_date - date.today() + timedelta(days=1)
+        days_list.append(str(days)[:-9])
+    return found, days_list
 
 
 
