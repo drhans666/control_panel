@@ -1,4 +1,3 @@
-from datetime import date, timedelta
 import time
 
 from django.shortcuts import render
@@ -13,7 +12,8 @@ from .scripts import vac_search, apply_dec, count_vac_days, vacnow_search_append
 
 
 def index(request):
-    text = 'hello costam'
+    user = request.user
+    text = 'Hello ' + str(user)
     return render(request, 'panel/index.html', {'text': text})
 
 

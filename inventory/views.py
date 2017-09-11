@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 
 from .forms import ItemForm, ItemLocationForm, QueryForm, ManufacturerForm,\
     CategoryForm, SectionForm, SimpleSearch
-from .scripts import search_items, check_category_section, simple_item_search
+from .scripts import adv_search_items, check_category_section, simple_item_search
 
 
 
@@ -75,10 +75,10 @@ def show_items_adv(request):
 
     item = str(request.POST.get('item')).upper()
     manufacturer = str(request.POST.get('manufacturer')).upper()
-    cat = request.POST.getlist('category')
-    sect = request.POST.getlist('section')
-    cat, sect = check_category_section(cat, sect)
-    context = {'form': QueryForm(), 'found_list': search_items(item, manufacturer, cat, sect)}
+    category = request.POST.getlist('category')
+    section = request.POST.getlist('section')
+    category, section = check_category_section(category, section)
+    context = {'form': QueryForm(), 'found_list': adv_search_items(item, manufacturer, category, section)}
 
     return render(request, 'inventory/show_items_adv.html', context)
 

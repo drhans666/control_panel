@@ -23,45 +23,31 @@ def check_category_section(category, section):
     return category, section
 
 
-def stocktaking_items(section):
-    results = []
-
-    matches = ItemLocation.objects.filter(section=section) \
-        .order_by('item__name', 'item__manufacturer__name')
-
-    for match in matches.values('section', 'item__name', 'item',
-                                'item__manufacturer__name') \
-            .annotate(quantity_sum=Sum('quantity')):
-            results.append(match)
-
-    return results
-
-
 def simple_item_search(item, manufacturer, section):
     matches = []
     results = []
 
     # query when all items and manufacturers
     if item == 'ALL' and manufacturer == 'ALL':
-        matches = ItemLocation.objects.filter(section__in=section) \
+        matches = ItemLocation.objects.filter(section=section) \
             .order_by('item__name', 'item__manufacturer__name')
 
     # query when specified item, all manufacturers
     if item != 'ALL' and manufacturer == 'ALL':
-        matches = ItemLocation.objects.filter(item=item, section__in=section)\
+        matches = ItemLocation.objects.filter(item=item, section=section)\
             .order_by('item__name', 'item__manufacturer__name')
 
     # query when specified manufacturer, all items
     if item == 'ALL' and manufacturer != 'ALL':
         matches = ItemLocation.objects.filter(item__manufacturer=manufacturer,
-                                              section__in=section)\
+                                              section=section)\
             .order_by('item__name', 'item__manufacturer__name')
 
     # query when specified manufacturer and items
     if item != 'ALL' and manufacturer != 'ALL':
         matches = ItemLocation.objects.filter(item=item,
                                               item__manufacturer=manufacturer,
-                                              section__in=section)\
+                                              section=section)\
             .order_by('item__name', 'item__manufacturer__name')
 
     for match in matches.values('section', 'item__name',
@@ -72,22 +58,22 @@ def simple_item_search(item, manufacturer, section):
     return results
 
 
-def search_items(item, manufacturer, cat, sect):
+def adv_search_items(item, manufacturer, category, section):
     found_items = []
     found_category = []
 
     # query when all items and manufacturers
     if item == 'ALL' and manufacturer == 'ALL':
-        matches = ItemLocation.objects.filter(section__in=sect,
-                                              item__category__id__in=cat)\
+        matches = ItemLocation.objects.filter(section__in=section,
+                                              item__category__in=category)\
             .order_by('section__name', 'item__name').distinct()
 
         found_list_appender(matches, found_items, found_category)
 
     # query when specified item, all manufacturers
     if item != 'ALL' and manufacturer == 'ALL':
-        matches = ItemLocation.objects.filter(item=item, section__in=sect,
-                                              item__category__id__in=cat).order_by('section__name',
+        matches = ItemLocation.objects.filter(item=item, section__in=section,
+                                              item__category__in=category).order_by('section__name',
                                                                                    'item__name').distinct()
 
         found_list_appender(matches, found_items, found_category)
@@ -95,8 +81,8 @@ def search_items(item, manufacturer, cat, sect):
     # query when specified manufacturer, all items
     if item == 'ALL' and manufacturer != 'ALL':
         matches = ItemLocation.objects.filter(item__manufacturer=manufacturer,
-                                              section__in=sect,
-                                              item__category__id__in=cat).order_by('section__name',
+                                              section__in=section,
+                                              item__category__in=category).order_by('section__name',
                                                                                    'item__name').distinct()
 
         found_list_appender(matches, found_items, found_category)
@@ -105,8 +91,8 @@ def search_items(item, manufacturer, cat, sect):
     if item != 'ALL' and manufacturer != 'ALL':
         matches = ItemLocation.objects.filter(item=item,
                                               item__manufacturer=manufacturer,
-                                              section__in=sect,
-                                              item__category__id__in=cat).order_by('section__name',
+                                              section__in=section,
+                                              item__category__in=category).order_by('section__name',
                                                                                    'item__name').distinct()
 
         found_list_appender(matches, found_items, found_category)
