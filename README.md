@@ -29,11 +29,10 @@ Higher group can:
 * send stocktaking form
 
 
-TODO:
+Future features:
 
-* Inventory section: browsing through stocktaking forms
-* Inventory section: removing items from sections
-* frontend + javascript
+* Inventory section: browsing through sent stocktaking forms
+* Inventory section: removing/editing items in sections
 
 ## Installation
 
