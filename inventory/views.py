@@ -57,7 +57,7 @@ def simple_search(request):
 
     item = str(request.POST.get('item')).upper()
     manufacturer = str(request.POST.get('manufacturer')).upper()
-    section = request.POST.getlist('section')
+    section = request.POST.get('section')
     context['results'] = simple_item_search(item, manufacturer, section)
 
     return render(request, 'inventory/simple_search.html', context)
